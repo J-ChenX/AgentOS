@@ -3,8 +3,8 @@ import { within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import HistoryPanel from '../../src/components/panels/HistoryPanel';
 import { MockAdapter } from '../../src/adapter/mock';
-import { SessionNavContext } from '../../src/App';
-import type { SessionNavContextValue } from '../../src/App';
+import { SessionNavContext } from '../../src/contexts/SessionNavContext';
+import type { SessionNavContextValue } from '../../src/contexts/SessionNavContext';
 
 async function seedAdapter(adapter: MockAdapter, userMessage: string) {
   const { session_id, turn_id } = await adapter.createSession(userMessage);

@@ -2,8 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ChatPanel from '../../src/components/panels/ChatPanel';
 import { MockAdapter } from '../../src/adapter/mock';
-import { SessionNavContext } from '../../src/App';
-import type { SessionNavContextValue } from '../../src/App';
+import { SessionNavContext } from '../../src/contexts/SessionNavContext';
+import type { SessionNavContextValue } from '../../src/contexts/SessionNavContext';
 
 function renderChat(adapter: MockAdapter, navCtx: Partial<SessionNavContextValue> = {}) {
   const ctx: SessionNavContextValue = {
