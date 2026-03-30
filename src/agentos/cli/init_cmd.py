@@ -191,9 +191,7 @@ def init_command(name: str = typer.Argument(..., help="项目名称")):
         AGENT_TOML_TEMPLATE.format(name=name, base_url=base_url, model=model),
         encoding="utf-8",
     )
-    (agent_dir / "agent.md").write_text(
-        AGENT_MD_TEMPLATE.format(name=name), encoding="utf-8"
-    )
+    (agent_dir / "agent.md").write_text(AGENT_MD_TEMPLATE.format(name=name), encoding="utf-8")
     (agent_dir / "memory.md").write_text(MEMORY_MD_TEMPLATE, encoding="utf-8")
     (agent_dir / ".env.example").write_text(ENV_EXAMPLE, encoding="utf-8")
     (agent_dir / "skills" / "hello.py").write_text(HELLO_SKILL, encoding="utf-8")

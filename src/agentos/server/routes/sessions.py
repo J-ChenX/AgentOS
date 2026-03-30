@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 # If the client disconnects, the background task keeps running and events are
 # buffered so a reconnect (with Last-Event-ID) can replay without duplication.
 
+
 class _TurnRunner:
     """Buffers events from a background engine.run_turn task."""
 
@@ -173,9 +174,7 @@ def create_sessions_router(engine: Any, store: Any) -> APIRouter:
 
         # Idempotency: if turn_id already exists, return it
         if body.turn_id:
-            existing = next(
-                (t for t in session.turns if t.turn_id == body.turn_id), None
-            )
+            existing = next((t for t in session.turns if t.turn_id == body.turn_id), None)
             if existing:
                 if _hash(body.user_message) != existing.user_message_hash:
                     raise HTTPException(
@@ -186,9 +185,7 @@ def create_sessions_router(engine: Any, store: Any) -> APIRouter:
 
         # Concurrency lock: reject if any turn is currently running
         if any(t.status == "running" for t in session.turns):
-            raise HTTPException(
-                status_code=409, detail="Another turn is already running"
-            )
+            raise HTTPException(status_code=409, detail="Another turn is already running")
 
         turn_id = body.turn_id or f"turn_{uuid.uuid4().hex[:8]}"
         now = _now()
@@ -220,10 +217,12 @@ def create_sessions_router(engine: Any, store: Any) -> APIRouter:
 
         # Replay already-completed turns (filter by last_event_id to prevent duplicates)
         if turn.status != "running":
+
             async def replay():
                 for event in turn.events:
                     if event.get("seq", 0) > last_event_id:
                         yield event
+
             return sse_response(request, replay())
 
         # Build history from all done turns preceding this one
@@ -262,14 +261,16 @@ def create_sessions_router(engine: Any, store: Any) -> APIRouter:
                 except Exception as e:
                     logger.exception("background run_turn error: %s", e)
                     await _finalize_turn(session, turn, status="error")
-                    await runner.push({
-                        "type": "error",
-                        "level": "fatal",
-                        "message": str(e),
-                        "task_id": turn_id,
-                        "recoverable": False,
-                        "seq": len(runner.events) + 1,
-                    })
+                    await runner.push(
+                        {
+                            "type": "error",
+                            "level": "fatal",
+                            "message": str(e),
+                            "task_id": turn_id,
+                            "recoverable": False,
+                            "seq": len(runner.events) + 1,
+                        }
+                    )
                 finally:
                     await runner.finish()
                     _runners.pop(key, None)
@@ -302,9 +303,7 @@ def create_sessions_router(engine: Any, store: Any) -> APIRouter:
         if not turn:
             raise HTTPException(status_code=404, detail="Turn not found")
         if turn.status == "running":
-            raise HTTPException(
-                status_code=409, detail="Cannot delete a running turn"
-            )
+            raise HTTPException(status_code=409, detail="Cannot delete a running turn")
         try:
             await store.delete_turn(session_id, turn_id)
         except ValueError as exc:

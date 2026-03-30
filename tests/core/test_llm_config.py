@@ -1,4 +1,5 @@
 """Tests for LLMConfig.resolve_model() and to_litellm_kwargs()."""
+
 from __future__ import annotations
 
 import os

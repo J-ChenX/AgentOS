@@ -15,9 +15,7 @@ from pathlib import Path
 from agentos.core.tool import tool
 
 
-def _find_section_boundaries(
-    lines: list[str], section_title: str
-) -> tuple[int, int] | None:
+def _find_section_boundaries(lines: list[str], section_title: str) -> tuple[int, int] | None:
     """找到 ## section_title 的起止行号（左闭右开）。
 
     跳过 fenced code block 内部的 ## 行。
@@ -71,9 +69,7 @@ def replace_section(file_path: str, section_title: str, new_content: str) -> str
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines(keepends=True)
 
-    boundaries = _find_section_boundaries(
-        [line.rstrip("\n\r") for line in lines], section_title
-    )
+    boundaries = _find_section_boundaries([line.rstrip("\n\r") for line in lines], section_title)
     if boundaries is None:
         return f"错误：未找到分区 '## {section_title}'"
 

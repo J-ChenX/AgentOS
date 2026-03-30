@@ -4,6 +4,7 @@ from agentos.core.tool import tool
 
 VALID_STATUSES = {"pending", "in_progress", "completed"}
 
+
 @tool
 def update_todos(todos_json: str) -> str:
     """更新当前任务列表。todos_json 为 JSON 数组，每项包含：

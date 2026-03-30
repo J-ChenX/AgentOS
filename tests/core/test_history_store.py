@@ -97,7 +97,7 @@ async def test_list_sessions_pagination(tmp_path: Path):
     store = HistoryStore(tmp_path / "history")
     for i in range(5):
         s = make_session(f"s{i}")
-        s.updated_at = f"2026-01-0{i+1}T00:00:00Z"
+        s.updated_at = f"2026-01-0{i + 1}T00:00:00Z"
         await store.save_session(s)
 
     items, total = store.list_sessions(limit=2, offset=0)
@@ -106,6 +106,7 @@ async def test_list_sessions_pagination(tmp_path: Path):
 
 
 # ── delete_session ────────────────────────────────────────────────────────────
+
 
 @pytest.mark.anyio
 async def test_delete_session_removes_file_and_index(tmp_path: Path):
@@ -125,6 +126,7 @@ async def test_delete_session_idempotent(tmp_path: Path):
 
 
 # ── delete_turn ───────────────────────────────────────────────────────────────
+
 
 @pytest.mark.anyio
 async def test_delete_turn_removes_one_turn(tmp_path: Path):

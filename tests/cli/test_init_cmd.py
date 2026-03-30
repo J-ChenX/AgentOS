@@ -126,16 +126,25 @@ class TestInitCommand:
 
 def test_init_creates_all_default_skills(tmp_path, monkeypatch):
     import contextlib
+
     monkeypatch.chdir(tmp_path)
     from agentos.cli.init_cmd import init_command
+
     with contextlib.suppress(SystemExit):
         init_command("test_project")
     agent_toml = tmp_path / "test_project" / "agent" / "agent.toml"
     content = agent_toml.read_text(encoding="utf-8")
     for skill_name in [
-        "file_reader", "file_writer", "file_editor", "file_search",
-        "content_search", "system_shell", "web_search", "ask_user",
-        "todo_manager", "memory_writer",
+        "file_reader",
+        "file_writer",
+        "file_editor",
+        "file_search",
+        "content_search",
+        "system_shell",
+        "web_search",
+        "ask_user",
+        "todo_manager",
+        "memory_writer",
     ]:
         assert skill_name in content, f"Missing skill: {skill_name}"
     assert "safe_commands" in content
@@ -144,8 +153,10 @@ def test_init_creates_all_default_skills(tmp_path, monkeypatch):
 
 def test_init_agent_md_has_tool_rules(tmp_path, monkeypatch):
     import contextlib
+
     monkeypatch.chdir(tmp_path)
     from agentos.cli.init_cmd import init_command
+
     with contextlib.suppress(SystemExit):
         init_command("test_project2")
     agent_md = tmp_path / "test_project2" / "agent" / "agent.md"

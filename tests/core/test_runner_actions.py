@@ -26,20 +26,24 @@ class TestTryParseAction:
         assert result["question"] == "continue?"
 
     def test_parses_confirm_and_execute(self):
-        data = json.dumps({
-            "_action": "confirm_and_execute",
-            "question": "run this?",
-            "_retry_args": {"command": "ls", "_confirmed": True},
-        })
+        data = json.dumps(
+            {
+                "_action": "confirm_and_execute",
+                "question": "run this?",
+                "_retry_args": {"command": "ls", "_confirmed": True},
+            }
+        )
         result = _try_parse_action(data)
         assert result["_action"] == "confirm_and_execute"
         assert result["_retry_args"]["_confirmed"] is True
 
     def test_parses_todos_updated(self):
-        data = json.dumps({
-            "_action": "todos_updated",
-            "todos": [{"content": "task1", "status": "pending"}],
-        })
+        data = json.dumps(
+            {
+                "_action": "todos_updated",
+                "todos": [{"content": "task1", "status": "pending"}],
+            }
+        )
         result = _try_parse_action(data)
         assert result["_action"] == "todos_updated"
 
@@ -86,10 +90,12 @@ class TestExecWithAction:
         @tool
         def ask(question: str) -> str:
             """Ask"""
-            return json.dumps({
-                "_action": "ask_user",
-                "question": question,
-            })
+            return json.dumps(
+                {
+                    "_action": "ask_user",
+                    "question": question,
+                }
+            )
 
         runner = AgentRunner(llm_config=LLMConfig(model="test"), tools=[ask])
         tc = {
@@ -117,15 +123,17 @@ class TestExecWithAction:
         def dangerous(command: str, _confirmed: bool = False) -> str:
             """Run"""
             if not _confirmed:
-                return json.dumps({
-                    "_action": "confirm_and_execute",
-                    "question": f"run {command}?",
-                    "options": ["\u786e\u8ba4", "\u53d6\u6d88"],
-                    "_retry_args": {
-                        "command": command,
-                        "_confirmed": True,
-                    },
-                })
+                return json.dumps(
+                    {
+                        "_action": "confirm_and_execute",
+                        "question": f"run {command}?",
+                        "options": ["\u786e\u8ba4", "\u53d6\u6d88"],
+                        "_retry_args": {
+                            "command": command,
+                            "_confirmed": True,
+                        },
+                    }
+                )
             return f"executed: {command}"
 
         runner = AgentRunner(llm_config=LLMConfig(model="test"), tools=[dangerous])
@@ -152,15 +160,17 @@ class TestExecWithAction:
         def dangerous(command: str, _confirmed: bool = False) -> str:
             """Run"""
             if not _confirmed:
-                return json.dumps({
-                    "_action": "confirm_and_execute",
-                    "question": f"run {command}?",
-                    "options": ["\u786e\u8ba4", "\u53d6\u6d88"],
-                    "_retry_args": {
-                        "command": command,
-                        "_confirmed": True,
-                    },
-                })
+                return json.dumps(
+                    {
+                        "_action": "confirm_and_execute",
+                        "question": f"run {command}?",
+                        "options": ["\u786e\u8ba4", "\u53d6\u6d88"],
+                        "_retry_args": {
+                            "command": command,
+                            "_confirmed": True,
+                        },
+                    }
+                )
             return f"executed: {command}"
 
         runner = AgentRunner(llm_config=LLMConfig(model="test"), tools=[dangerous])
@@ -175,7 +185,8 @@ class TestExecWithAction:
         async def cancel_later():
             await asyncio.sleep(0.1)
             runner.submit_action(
-                "c3", {"confirmed": False, "text": "too risky"},
+                "c3",
+                {"confirmed": False, "text": "too risky"},
             )
 
         asyncio.create_task(cancel_later())
@@ -189,12 +200,14 @@ class TestExecWithAction:
         @tool
         def todos(data: str) -> str:
             """Update todos"""
-            return json.dumps({
-                "_action": "todos_updated",
-                "todos": [
-                    {"content": "task1", "status": "in_progress"},
-                ],
-            })
+            return json.dumps(
+                {
+                    "_action": "todos_updated",
+                    "todos": [
+                        {"content": "task1", "status": "in_progress"},
+                    ],
+                }
+            )
 
         runner = AgentRunner(llm_config=LLMConfig(model="test"), tools=[todos])
         tc = {

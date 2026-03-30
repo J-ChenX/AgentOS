@@ -14,12 +14,14 @@ def _tavily_search(query: str, max_results: int = 5) -> list[dict]:
     import urllib.request
 
     api_key = os.environ["TAVILY_API_KEY"]
-    payload = json_mod.dumps({
-        "api_key": api_key,
-        "query": query,
-        "max_results": max_results,
-        "include_answer": False,
-    }).encode("utf-8")
+    payload = json_mod.dumps(
+        {
+            "api_key": api_key,
+            "query": query,
+            "max_results": max_results,
+            "include_answer": False,
+        }
+    ).encode("utf-8")
 
     req = urllib.request.Request(
         "https://api.tavily.com/search",

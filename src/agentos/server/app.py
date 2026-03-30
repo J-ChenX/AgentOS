@@ -68,6 +68,7 @@ def create_app(dev_mode: bool = False, history_dir: Path | None = None) -> FastA
     # ── History store ──────────────────────────────────────────────────────
     resolved_history_dir = history_dir or (project_dir / ".agentos" / "history")
     from agentos.core.history_store import HistoryStore
+
     store = HistoryStore(resolved_history_dir)
     # ───────────────────────────────────────────────────────────────────────
 
@@ -97,6 +98,7 @@ def create_app(dev_mode: bool = False, history_dir: Path | None = None) -> FastA
     @app.get("/api/agent/state")
     async def get_agent_state():
         from agentos.server.models import AgentStateResponse
+
         engine = app.state.engine
         state = getattr(engine, "state", "idle")
         question = getattr(engine, "pending_question", None)

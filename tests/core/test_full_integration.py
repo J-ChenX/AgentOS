@@ -50,9 +50,16 @@ def test_all_10_skills_load(full_config):
 
     skill_names = {s.name for s in loaded}
     expected = {
-        "file_reader", "file_writer", "file_editor", "file_search",
-        "content_search", "system_shell", "web_search", "ask_user",
-        "todo_manager", "memory_writer",
+        "file_reader",
+        "file_writer",
+        "file_editor",
+        "file_search",
+        "content_search",
+        "system_shell",
+        "web_search",
+        "ask_user",
+        "todo_manager",
+        "memory_writer",
     }
     assert skill_names == expected
 

@@ -314,11 +314,15 @@ class AgentRunner:
             self._event_queue.put_nowait({"type": "todos_updated", "todos": todos})
             msg = "任务列表已更新。"
             return fn_name, {
-                "role": "tool", "tool_call_id": call_id, "content": msg,
+                "role": "tool",
+                "tool_call_id": call_id,
+                "content": msg,
             }
 
         return fn_name, {
-            "role": "tool", "tool_call_id": call_id, "content": result,
+            "role": "tool",
+            "tool_call_id": call_id,
+            "content": result,
         }
 
     async def _wait_for_user_input(self, action_data: dict, call_id: str) -> object:
@@ -406,8 +410,7 @@ class AgentRunner:
 
                         # Thinking tokens (Gemini extended thinking / DeepSeek R1 style)
                         if thinking_chunk := (
-                            delta.get("reasoning")
-                            or delta.get("reasoning_content")
+                            delta.get("reasoning") or delta.get("reasoning_content")
                         ):
                             accumulated_thinking += thinking_chunk
 
@@ -473,9 +476,7 @@ class AgentRunner:
                             }
                         )
 
-                    results = await asyncio.gather(
-                        *(self.exec_tool(tc) for tc in tool_calls_list)
-                    )
+                    results = await asyncio.gather(*(self.exec_tool(tc) for tc in tool_calls_list))
 
                     for name, tr in results:
                         content = tr["content"]
@@ -619,8 +620,7 @@ class AgentRunner:
 
                         # Thinking tokens (Gemini extended thinking / DeepSeek R1 style)
                         if thinking_chunk := (
-                            delta.get("reasoning")
-                            or delta.get("reasoning_content")
+                            delta.get("reasoning") or delta.get("reasoning_content")
                         ):
                             accumulated_thinking += thinking_chunk
 
@@ -681,9 +681,7 @@ class AgentRunner:
                             "seq": s(),
                         }
 
-                    results = await asyncio.gather(
-                        *(self.exec_tool(tc) for tc in tool_calls_list)
-                    )
+                    results = await asyncio.gather(*(self.exec_tool(tc) for tc in tool_calls_list))
 
                     for name, tr in results:
                         content = tr["content"]

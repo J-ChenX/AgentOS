@@ -55,7 +55,7 @@ class TestEditFile:
     def test_expected_snippet_matches(self, tmp_path):
         f = tmp_path / "test.py"
         f.write_text(SAMPLE_CODE, encoding="utf-8")
-        result = edit_file(str(f), 4, 5, 'def greet():\n    pass', expected_snippet="def hello")
+        result = edit_file(str(f), 4, 5, "def greet():\n    pass", expected_snippet="def hello")
         assert "错误" not in result
         content = f.read_text(encoding="utf-8")
         assert "def greet():" in content
@@ -63,7 +63,7 @@ class TestEditFile:
     def test_expected_snippet_mismatch(self, tmp_path):
         f = tmp_path / "test.py"
         f.write_text(SAMPLE_CODE, encoding="utf-8")
-        result = edit_file(str(f), 4, 5, 'new code', expected_snippet="def world")
+        result = edit_file(str(f), 4, 5, "new code", expected_snippet="def world")
         assert "不符" in result or "错误" in result
         # File should NOT be modified
         assert f.read_text(encoding="utf-8") == SAMPLE_CODE

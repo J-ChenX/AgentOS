@@ -11,10 +11,25 @@ from agentos.builtin_skills._common import get_skill_config
 from agentos.core.tool import tool
 
 DEFAULT_SAFE_COMMANDS = [
-    "ls", "pwd", "cat", "head", "tail", "echo", "wc",
-    "find", "grep", "which", "env", "date", "whoami",
-    "python --version", "node --version",
-    "git status", "git log", "git diff", "pip list",
+    "ls",
+    "pwd",
+    "cat",
+    "head",
+    "tail",
+    "echo",
+    "wc",
+    "find",
+    "grep",
+    "which",
+    "env",
+    "date",
+    "whoami",
+    "python --version",
+    "node --version",
+    "git status",
+    "git log",
+    "git diff",
+    "pip list",
 ]
 
 DANGEROUS_OPERATOR_PATTERN = re.compile(r"[|;&]|>>?|`|\$\(")
@@ -69,6 +84,7 @@ async def run_shell(command: str, _confirmed: bool = False) -> str:
     # Intercept attempts to read image files via shell — redirect to read_file
     if _FILE_READ_CMDS.match(command.strip()):
         from pathlib import Path
+
         parts = command.strip().split()
         if len(parts) >= 2:
             filepath = parts[-1].strip("\"'")

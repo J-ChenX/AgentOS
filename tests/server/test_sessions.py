@@ -5,9 +5,7 @@ import pytest
 
 @pytest.mark.anyio
 async def test_create_session(sessions_client):
-    resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     assert resp.status_code == 200
     data = resp.json()
     assert "session_id" in data
@@ -34,9 +32,7 @@ async def test_list_sessions_after_create(sessions_client):
 
 @pytest.mark.anyio
 async def test_get_session_detail(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "detail test"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "detail test"})
     session_id = create_resp.json()["session_id"]
     resp = await sessions_client.get(f"/api/sessions/{session_id}")
     assert resp.status_code == 200
@@ -55,16 +51,12 @@ async def test_get_session_404(sessions_client):
 @pytest.mark.anyio
 async def test_add_turn_idempotency(sessions_client):
     """Same turn_id + same message returns 200 without creating a duplicate."""
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "first turn"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "first turn"})
     session_id = create_resp.json()["session_id"]
 
     # Wait for first turn to "finish" by streaming it
     first_turn_id = create_resp.json()["turn_id"]
-    await sessions_client.get(
-        f"/api/sessions/{session_id}/turns/{first_turn_id}/stream"
-    )
+    await sessions_client.get(f"/api/sessions/{session_id}/turns/{first_turn_id}/stream")
 
     # Add a second turn
     turn_id = "fixed-uuid-1234"
@@ -90,14 +82,10 @@ async def test_add_turn_idempotency(sessions_client):
 @pytest.mark.anyio
 async def test_add_turn_tamper_returns_400(sessions_client):
     """Same turn_id but different message returns 400."""
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "original"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "original"})
     session_id = create_resp.json()["session_id"]
     first_turn_id = create_resp.json()["turn_id"]
-    await sessions_client.get(
-        f"/api/sessions/{session_id}/turns/{first_turn_id}/stream"
-    )
+    await sessions_client.get(f"/api/sessions/{session_id}/turns/{first_turn_id}/stream")
 
     turn_id = "fixed-uuid-5678"
     await sessions_client.post(
@@ -116,9 +104,7 @@ async def test_add_turn_tamper_returns_400(sessions_client):
 @pytest.mark.anyio
 async def test_add_turn_409_when_running(sessions_client):
     """Returns 409 if a turn is already running."""
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "first"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "first"})
     session_id = create_resp.json()["session_id"]
 
     # Without streaming the first turn, it stays 'running'
@@ -131,9 +117,7 @@ async def test_add_turn_409_when_running(sessions_client):
 
 @pytest.mark.anyio
 async def test_stream_turn_returns_sse(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "stream me"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "stream me"})
     data = create_resp.json()
     session_id, turn_id = data["session_id"], data["turn_id"]
 
@@ -151,15 +135,11 @@ async def test_stream_marks_turn_done(sessions_client):
     The background task (_bg_task) is an asyncio.Task; we yield the event loop
     once after the stream finishes to let the finalization coroutine run.
     """
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "finish me"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "finish me"})
     data = create_resp.json()
     session_id, turn_id = data["session_id"], data["turn_id"]
 
-    await sessions_client.get(
-        f"/api/sessions/{session_id}/turns/{turn_id}/stream"
-    )
+    await sessions_client.get(f"/api/sessions/{session_id}/turns/{turn_id}/stream")
     # Yield to event loop so background _finalize_turn coroutine can complete
     await asyncio.sleep(0)
 
@@ -170,26 +150,21 @@ async def test_stream_marks_turn_done(sessions_client):
 
 @pytest.mark.anyio
 async def test_cancel_turn(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "cancel me"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "cancel me"})
     data = create_resp.json()
     session_id, turn_id = data["session_id"], data["turn_id"]
 
-    resp = await sessions_client.post(
-        f"/api/sessions/{session_id}/turns/{turn_id}/cancel"
-    )
+    resp = await sessions_client.post(f"/api/sessions/{session_id}/turns/{turn_id}/cancel")
     assert resp.status_code == 200
     assert resp.json()["status"] == "cancelled"
 
 
 # ── DELETE /sessions/{id} ─────────────────────────────────────────────────────
 
+
 @pytest.mark.anyio
 async def test_delete_session_returns_204(sessions_client):
-    resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "to be deleted"}
-    )
+    resp = await sessions_client.post("/api/sessions", json={"user_message": "to be deleted"})
     session_id = resp.json()["session_id"]
 
     del_resp = await sessions_client.delete(f"/api/sessions/{session_id}")
@@ -208,6 +183,7 @@ async def test_delete_nonexistent_session_returns_204(sessions_client):
 
 # ── DELETE /sessions/{id}/turns/{tid} ────────────────────────────────────────
 
+
 @pytest.mark.anyio
 async def test_delete_turn_returns_204(sessions_client):
     create_resp = await sessions_client.post(
@@ -217,13 +193,9 @@ async def test_delete_turn_returns_204(sessions_client):
     turn_id = create_resp.json()["turn_id"]
 
     # Stream the turn to completion so it is no longer running
-    await sessions_client.get(
-        f"/api/sessions/{session_id}/turns/{turn_id}/stream"
-    )
+    await sessions_client.get(f"/api/sessions/{session_id}/turns/{turn_id}/stream")
 
-    del_resp = await sessions_client.delete(
-        f"/api/sessions/{session_id}/turns/{turn_id}"
-    )
+    del_resp = await sessions_client.delete(f"/api/sessions/{session_id}/turns/{turn_id}")
     # Deleting the only turn removes the session too → session gone
     assert del_resp.status_code == 204
     assert (await sessions_client.get(f"/api/sessions/{session_id}")).status_code == 404
@@ -237,13 +209,9 @@ async def test_delete_turn_missing_session_returns_404(sessions_client):
 
 @pytest.mark.anyio
 async def test_delete_turn_missing_turn_returns_404(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello"})
     session_id = create_resp.json()["session_id"]
-    resp = await sessions_client.delete(
-        f"/api/sessions/{session_id}/turns/no_such_turn"
-    )
+    resp = await sessions_client.delete(f"/api/sessions/{session_id}/turns/no_such_turn")
     assert resp.status_code == 404
 
 
@@ -255,19 +223,16 @@ async def test_delete_running_turn_returns_409(sessions_client):
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
     # Do NOT stream → turn stays "running"
-    resp = await sessions_client.delete(
-        f"/api/sessions/{session_id}/turns/{turn_id}"
-    )
+    resp = await sessions_client.delete(f"/api/sessions/{session_id}/turns/{turn_id}")
     assert resp.status_code == 409
 
 
 # ── Annotation endpoints ──────────────────────────────────────────────────────
 
+
 @pytest.mark.anyio
 async def test_add_annotation_returns_201(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
@@ -291,9 +256,7 @@ async def test_add_annotation_returns_201(sessions_client):
 
 @pytest.mark.anyio
 async def test_annotation_persisted_in_session(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
@@ -310,9 +273,7 @@ async def test_annotation_persisted_in_session(sessions_client):
 
 @pytest.mark.anyio
 async def test_annotation_original_mismatch_returns_422(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
@@ -331,9 +292,7 @@ async def test_annotation_original_mismatch_returns_422(sessions_client):
 
 @pytest.mark.anyio
 async def test_delete_annotation_returns_204(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
@@ -354,9 +313,7 @@ async def test_delete_annotation_returns_204(sessions_client):
 
 @pytest.mark.anyio
 async def test_add_replaced_annotation_without_replacement_returns_422(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
@@ -369,17 +326,19 @@ async def test_add_replaced_annotation_without_replacement_returns_422(sessions_
 
 @pytest.mark.anyio
 async def test_add_replaced_annotation_with_replacement_returns_201(sessions_client):
-    create_resp = await sessions_client.post(
-        "/api/sessions", json={"user_message": "hello world"}
-    )
+    create_resp = await sessions_client.post("/api/sessions", json={"user_message": "hello world"})
     session_id = create_resp.json()["session_id"]
     turn_id = create_resp.json()["turn_id"]
 
     resp = await sessions_client.post(
         f"/api/sessions/{session_id}/turns/{turn_id}/annotations",
         json={
-            "target": "user", "start": 0, "end": 5, "original": "hello",
-            "type": "replaced", "replacement": "hi",
+            "target": "user",
+            "start": 0,
+            "end": 5,
+            "original": "hello",
+            "type": "replaced",
+            "replacement": "hi",
         },
     )
     assert resp.status_code == 201

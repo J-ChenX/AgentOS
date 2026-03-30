@@ -11,9 +11,7 @@ def _make_agent_workspace(tmp_path, toml_content=None):
     """Helper: create agent/ dir with agent.toml inside tmp_path."""
     agent_dir = tmp_path / "agent"
     agent_dir.mkdir()
-    (agent_dir / "agent.toml").write_text(
-        toml_content or '[project]\nname = "test"\n[skills]\n'
-    )
+    (agent_dir / "agent.toml").write_text(toml_content or '[project]\nname = "test"\n[skills]\n')
     return agent_dir
 
 

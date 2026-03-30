@@ -8,6 +8,7 @@ from agentos.core.runner import AgentRunner
 @pytest.mark.anyio
 async def test_agent_state_idle():
     from agentos.server.app import create_app
+
     app = create_app()
     runner = AgentRunner(llm_config=LLMConfig(model="test"))
     app.state.engine = runner
@@ -23,6 +24,7 @@ async def test_agent_state_idle():
 @pytest.mark.anyio
 async def test_agent_state_waiting_user():
     from agentos.server.app import create_app
+
     app = create_app()
     runner = AgentRunner(llm_config=LLMConfig(model="test"))
     runner.state = "waiting_user"

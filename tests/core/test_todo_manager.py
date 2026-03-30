@@ -5,10 +5,12 @@ from agentos.builtin_skills.todo_manager.skill import update_todos
 
 class TestUpdateTodos:
     def test_returns_todos_updated_action(self):
-        todos = json.dumps([
-            {"content": "Write tests", "status": "completed"},
-            {"content": "Implement feature", "status": "in_progress"},
-        ])
+        todos = json.dumps(
+            [
+                {"content": "Write tests", "status": "completed"},
+                {"content": "Implement feature", "status": "in_progress"},
+            ]
+        )
         result = update_todos(todos)
         parsed = json.loads(result)
         assert parsed["_action"] == "todos_updated"

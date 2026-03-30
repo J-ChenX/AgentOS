@@ -17,8 +17,8 @@ _MEDIA_TYPES: dict[str, str] = {
     ".bmp": "image/bmp",
 }
 
-_TEXT_MAX_BYTES = 1 * 1024 * 1024   # 文本文件大小上限
-_MAX_PX = 2048                       # 发送给模型前的最长边上限
+_TEXT_MAX_BYTES = 1 * 1024 * 1024  # 文本文件大小上限
+_MAX_PX = 2048  # 发送给模型前的最长边上限
 
 
 def _prepare_image(data: bytes, ext: str) -> tuple[bytes, str]:

@@ -85,9 +85,7 @@ class HistoryStore:
                 logger.error("Failed to load session %s: %s", session_id, e)
                 return None
 
-    def list_sessions(
-        self, limit: int = 50, offset: int = 0
-    ) -> tuple[list[dict], int]:
+    def list_sessions(self, limit: int = 50, offset: int = 0) -> tuple[list[dict], int]:
         """Return (items, total). Items sorted by updated_at descending."""
         items = [
             {

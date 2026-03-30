@@ -40,7 +40,8 @@ class TestGlobFiles:
             (tmp_path / f"file_{i}.txt").write_text("x", encoding="utf-8")
         result = glob_files("*.txt", str(tmp_path))
         lines = [
-            line for line in result.strip().splitlines()
+            line
+            for line in result.strip().splitlines()
             if line.strip() and not line.startswith("⚠")
         ]
         assert len(lines) <= 200
