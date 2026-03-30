@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "todo-manager"
+version = "0.1.0"
+description = "管理当前任务列表（会话级 + 持久化）"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = false
+file_write = true
+network = false
+shell = false
+env_vars = []

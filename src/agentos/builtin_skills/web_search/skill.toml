@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "web-search"
+version = "0.1.0"
+description = "搜索网页获取实时信息"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = false
+file_write = false
+network = true
+shell = false
+env_vars = ["TAVILY_API_KEY"]

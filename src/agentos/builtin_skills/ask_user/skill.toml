@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "ask-user"
+version = "0.1.0"
+description = "向用户提问并等待回答"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = false
+file_write = false
+network = false
+shell = false
+env_vars = []

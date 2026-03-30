@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "file-writer"
+version = "0.1.0"
+description = "创建新文件或完整覆写已有文件"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = true
+network = false
+shell = false
+env_vars = []

@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "file-reader"
+version = "0.1.0"
+description = "读取项目目录内的文本文件内容"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = false
+network = false
+shell = false
+env_vars = []

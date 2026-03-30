@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "file-search"
+version = "0.1.0"
+description = "用 glob 模式搜索项目文件"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = false
+network = false
+shell = false
+env_vars = []

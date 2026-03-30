@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "memory-writer"
+version = "0.1.0"
+description = "管理 Agent 记忆系统：L1 核心记忆分区替换 + L2 扩展记忆追加写入"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = true
+network = false
+shell = false
+env_vars = []

@@ -1,0 +1,44 @@
+[project]
+name = "my_agent"
+version = "0.1.0"
+
+[llm]
+model = "gpt-5.4"
+base_url = "https://ai.t8star.cn"
+api_key_env = "LLM_API_KEY"
+
+[agent]
+type = "react"
+max_iterations = 20
+system_prompt_path = "agent.md"
+memory_path = "memory.md"
+
+[scope]
+allow = ["./"]
+deny = [".env", "*.key", "memory_store/"]
+
+[skills]
+# 文件操作
+file_reader     = { source = "builtin" }
+file_writer     = { source = "builtin" }
+file_editor     = { source = "builtin" }
+file_search     = { source = "builtin" }
+content_search  = { source = "builtin" }
+
+# 系统交互
+system_shell    = { source = "builtin", safe_commands = [
+    "ls", "pwd", "cat", "head", "tail", "echo", "wc",
+    "find", "grep", "which", "env", "date", "whoami",
+    "python --version", "node --version",
+    "git status", "git log", "git diff", "pip list"
+], confirm_mode = "unsafe" }
+
+# 网络
+web_search      = { source = "builtin" }
+
+# 用户交互与任务管理
+ask_user        = { source = "builtin" }
+todo_manager    = { source = "builtin" }
+
+# 记忆系统
+memory_writer   = { source = "builtin" }

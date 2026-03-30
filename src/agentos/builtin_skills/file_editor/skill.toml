@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "file-editor"
+version = "0.1.0"
+description = "精确替换文件指定行范围的内容"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = true
+network = false
+shell = false
+env_vars = []

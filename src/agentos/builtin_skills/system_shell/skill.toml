@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "system-shell"
+version = "0.1.0"
+description = "在项目目录执行 shell 命令"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = true
+network = false
+shell = true
+env_vars = []

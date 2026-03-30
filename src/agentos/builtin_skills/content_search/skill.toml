@@ -1,0 +1,15 @@
+manifest_version = 1
+
+[skill]
+name = "content-search"
+version = "0.1.0"
+description = "搜索文件内容（正则表达式匹配）"
+author = "agentos-team"
+entry = "skill.py"
+
+[permissions]
+file_read = true
+file_write = false
+network = false
+shell = false
+env_vars = []
