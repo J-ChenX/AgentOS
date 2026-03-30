@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from agentos.builtin_skills.file_editor.skill import edit_file
 
 
@@ -32,7 +30,7 @@ class TestEditFile:
     def test_replace_multiple_lines(self, tmp_path):
         f = tmp_path / "test.py"
         f.write_text(SAMPLE_CODE, encoding="utf-8")
-        result = edit_file(str(f), 4, 5, 'def greet():\n    print("greet")')
+        edit_file(str(f), 4, 5, 'def greet():\n    print("greet")')
         content = f.read_text(encoding="utf-8")
         assert "def greet():" in content
         assert "def hello():" not in content

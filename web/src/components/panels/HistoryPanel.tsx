@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Trash2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import type { AgentAdapter, Session } from '../../types';
-import { useSessionNav } from '../../App';
+import { useSessionNav } from '../../contexts/SessionNavContext';
 import ConfirmModal from '../common/ConfirmModal';
 
 function StatusBadge({ status }: { status: string }) {

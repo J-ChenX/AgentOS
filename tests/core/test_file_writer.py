@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from agentos.builtin_skills.file_writer.skill import write_file
 
 

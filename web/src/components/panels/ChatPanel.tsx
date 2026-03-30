@@ -7,7 +7,7 @@ import ReconnectionBanner from '../chat/ReconnectionBanner';
 import ConfirmModal from '../common/ConfirmModal';
 import { chatReducer, initialChatState } from '../../hooks/useEventReducer';
 import type { AgentAdapter, UserMessageEvent, Annotation, AnnotationCreate } from '../../types';
-import { useSessionNav } from '../../App';
+import { useSessionNav } from '../../contexts/SessionNavContext';
 
 export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
   const { activeSessionId, navigateTo } = useSessionNav();

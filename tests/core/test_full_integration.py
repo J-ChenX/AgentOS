@@ -1,7 +1,5 @@
 """Integration test: verify all 10 builtin skills load and their tools are accessible."""
 
-from pathlib import Path
-
 import pytest
 
 from agentos.core.project_config import ProjectConfig
@@ -75,4 +73,6 @@ def test_all_tools_have_valid_schemas(full_config):
             assert "parameters" in schema["function"]
             # Internal params should not appear
             for prop_name in schema["function"]["parameters"].get("properties", {}):
-                assert not prop_name.startswith("_"), f"Internal param {prop_name} leaked in {tool_fn.name}"
+                assert not prop_name.startswith("_"), (
+                    f"Internal param {prop_name} leaked in {tool_fn.name}"
+                )

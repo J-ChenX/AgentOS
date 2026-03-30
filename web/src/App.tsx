@@ -1,25 +1,11 @@
-import { useMemo, useState, useCallback, createContext, useContext } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import LayoutRoot from './components/layout/LayoutRoot';
 import { MockAdapter } from './adapter/mock';
 import { WebAdapter } from './adapter/web';
 import type { AgentAdapter } from './types';
 import { useLayoutPersistence } from './hooks/useLayoutPersistence';
-
-// ── Session Navigation Context ────────────────────────────────────
-
-export interface SessionNavContextValue {
-  activeSessionId: string | null;
-  navigateTo: (id: string | null) => void;
-}
-
-export const SessionNavContext = createContext<SessionNavContextValue>({
-  activeSessionId: null,
-  navigateTo: () => {},
-});
-
-export function useSessionNav() {
-  return useContext(SessionNavContext);
-}
+import { SessionNavContext } from './contexts/SessionNavContext';
+import type { SessionNavContextValue } from './contexts/SessionNavContext';
 
 // ── Adapter factory ───────────────────────────────────────────────
 

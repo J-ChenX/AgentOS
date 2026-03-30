@@ -1,5 +1,4 @@
 # tests/core/test_history_store.py
-import asyncio
 from pathlib import Path
 
 import pytest

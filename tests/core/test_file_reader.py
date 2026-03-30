@@ -1,7 +1,3 @@
-from pathlib import Path
-
-import pytest
-
 from agentos.builtin_skills.file_reader.skill import read_file
 
 

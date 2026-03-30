@@ -4,7 +4,7 @@ import type { Annotation, AnnotationType } from '../../types';
 // ── Utilities ────────────────────────────────────────────────────────────────
 
 /** Convert a UTF-16 offset in `text` to a Unicode code-point offset. */
-export function utf16ToCodePointOffset(text: string, utf16Offset: number): number {
+function utf16ToCodePointOffset(text: string, utf16Offset: number): number {
   return [...text.slice(0, Math.min(utf16Offset, text.length))].length;
 }
 
@@ -193,7 +193,7 @@ export default function AnnotatedText({
         setBusy(false);
       }
     },
-    [selInfo, onAddAnnotation],
+    [selInfo, onAddAnnotation, target],
   );
 
   let toolbarTop = 0;

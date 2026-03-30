@@ -4,9 +4,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-from collections import deque
-from unittest.mock import patch
-
 import pytest
 
 from agentos.core.project_config import LLMConfig

@@ -1,7 +1,5 @@
 from unittest.mock import patch
 
-import pytest
-
 from agentos.builtin_skills.web_search.skill import web_search
 
 

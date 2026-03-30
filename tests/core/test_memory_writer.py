@@ -1,6 +1,3 @@
-import pytest
-
-
 class TestReplaceSection:
     def test_replaces_existing_section(self, tmp_path):
         md = tmp_path / "memory.md"
@@ -68,7 +65,8 @@ class TestReplaceSection:
     def test_skips_h2_inside_code_blocks(self, tmp_path):
         md = tmp_path / "memory.md"
         md.write_text(
-            "# 核心记忆\n\n## 用户偏好\n\n```\n## 这不是标题\n```\n\n偏好内容\n\n## 项目规范\n\n规范\n",
+            "# 核心记忆\n\n## 用户偏好\n\n"
+            "```\n## 这不是标题\n```\n\n偏好内容\n\n## 项目规范\n\n规范\n",
             encoding="utf-8",
         )
         from agentos.builtin_skills.memory_writer.skill import replace_section

@@ -1,4 +1,5 @@
 import json
+
 from agentos.builtin_skills.ask_user.skill import ask_user
 
 class TestAskUser:

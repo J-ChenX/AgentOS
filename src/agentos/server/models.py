@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Literal
 
 from pydantic import BaseModel
@@ -93,7 +93,7 @@ class TurnCreate(BaseModel):
     turn_id: str | None = None
 
 
-class AnnotationType(str, Enum):
+class AnnotationType(StrEnum):
     deleted = "deleted"
     emphasized = "emphasized"
     replaced = "replaced"

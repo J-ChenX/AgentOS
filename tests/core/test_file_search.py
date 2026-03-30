@@ -1,6 +1,3 @@
-import os
-from pathlib import Path
-
 from agentos.builtin_skills.file_search.skill import glob_files
 
 
@@ -42,5 +39,5 @@ class TestGlobFiles:
         for i in range(250):
             (tmp_path / f"file_{i}.txt").write_text("x", encoding="utf-8")
         result = glob_files("*.txt", str(tmp_path))
-        lines = [l for l in result.strip().splitlines() if l.strip() and not l.startswith("⚠")]
+        lines = [line for line in result.strip().splitlines() if line.strip() and not line.startswith("⚠")]
         assert len(lines) <= 200

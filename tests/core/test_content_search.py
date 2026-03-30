@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from agentos.builtin_skills.content_search.skill import grep_files
 
 
@@ -48,7 +46,7 @@ class TestGrepFiles:
     def test_output_format(self, tmp_path):
         self._make_tree(tmp_path)
         result = grep_files("import", str(tmp_path))
-        lines = [l for l in result.strip().splitlines() if ":" in l]
+        lines = [line for line in result.strip().splitlines() if ":" in line]
         assert len(lines) >= 1
         parts = lines[0].split(":")
         assert len(parts) >= 3  # file:line:content
