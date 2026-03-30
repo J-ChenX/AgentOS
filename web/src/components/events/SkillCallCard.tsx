@@ -59,17 +59,27 @@ function ResultPreview({ result }: { result: string }) {
           onClick={() => setExpanded((v) => !v)}
           style={{
             marginTop: '5px',
-            display: 'flex', alignItems: 'center', gap: '3px',
-            background: 'none', border: 'none',
-            fontFamily: 'var(--font-body)', fontSize: '10.5px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '3px',
+            background: 'none',
+            border: 'none',
+            fontFamily: 'var(--font-body)',
+            fontSize: '10.5px',
             color: 'var(--color-ink-tertiary)',
-            cursor: 'pointer', padding: 0,
+            cursor: 'pointer',
+            padding: 0,
           }}
         >
-          {expanded
-            ? <><ChevronUp size={11} strokeWidth={2} /> 收起</>
-            : <><ChevronDown size={11} strokeWidth={2} /> 显示全部 ({result.length} 字符)</>
-          }
+          {expanded ? (
+            <>
+              <ChevronUp size={11} strokeWidth={2} /> 收起
+            </>
+          ) : (
+            <>
+              <ChevronDown size={11} strokeWidth={2} /> 显示全部 ({result.length} 字符)
+            </>
+          )}
         </button>
       )}
     </div>
@@ -85,21 +95,19 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
   const borderColor = failed
     ? 'var(--color-error)'
     : success
-    ? 'var(--color-success)'
-    : 'var(--color-border-strong)';
+      ? 'var(--color-success)'
+      : 'var(--color-border-strong)';
 
   const badgeColor = failed
     ? 'var(--color-error)'
     : success
-    ? 'var(--color-success)'
-    : 'var(--color-ink-tertiary)';
+      ? 'var(--color-success)'
+      : 'var(--color-ink-tertiary)';
 
   const badgeText = failed ? '失败' : success ? '完成' : '调用中';
 
   // args is always present on skill_call; on skill_result it's enriched by reducer
-  const args = isResult
-    ? (event as SkillResultEvent).args
-    : (event as SkillCallEvent).args;
+  const args = isResult ? (event as SkillResultEvent).args : (event as SkillCallEvent).args;
 
   const primaryArg = getPrimaryArg(args);
   const result = isResult ? (event as SkillResultEvent).result : undefined;
@@ -118,7 +126,9 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
       {/* Header */}
       <div
         style={{
-          display: 'flex', alignItems: 'center', gap: '9px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '9px',
           padding: '7px 11px',
         }}
       >
@@ -132,7 +142,9 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
           {/* Skill name */}
           <div
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 400,
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11.5px',
+              fontWeight: 400,
               color: 'var(--color-ink-secondary)',
             }}
           >
@@ -143,9 +155,13 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
             <div
               style={{
                 marginTop: '2px',
-                fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 300,
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10.5px',
+                fontWeight: 300,
                 color: 'var(--color-ink-tertiary)',
-                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               }}
             >
               {primaryArg}
@@ -155,7 +171,9 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
           {failed && 'error' in event && event.error && (
             <div
               style={{
-                marginTop: '2px', fontSize: '11px', fontWeight: 300,
+                marginTop: '2px',
+                fontSize: '11px',
+                fontWeight: 300,
                 color: 'var(--color-error)',
               }}
             >
@@ -167,8 +185,11 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
         {success && 'duration_ms' in event && event.duration_ms != null && (
           <span
             style={{
-              fontFamily: 'var(--font-body)', fontSize: '11px',
-              fontWeight: 300, color: 'var(--color-ink-tertiary)', flexShrink: 0,
+              fontFamily: 'var(--font-body)',
+              fontSize: '11px',
+              fontWeight: 300,
+              color: 'var(--color-ink-tertiary)',
+              flexShrink: 0,
             }}
           >
             {event.duration_ms}ms
@@ -177,9 +198,13 @@ export default function SkillCallCard({ event }: SkillCallCardProps) {
 
         <span
           style={{
-            fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 500,
-            letterSpacing: '0.04em', textTransform: 'uppercase',
-            color: badgeColor, flexShrink: 0,
+            fontFamily: 'var(--font-body)',
+            fontSize: '10px',
+            fontWeight: 500,
+            letterSpacing: '0.04em',
+            textTransform: 'uppercase',
+            color: badgeColor,
+            flexShrink: 0,
           }}
         >
           {badgeText}

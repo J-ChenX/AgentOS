@@ -1,6 +1,14 @@
 import type {
-  AgentAdapter, StreamEvent, Session, Turn, TaskStatus,
-  Skill, FileNode, AgentConfig, Annotation, AnnotationCreate,
+  AgentAdapter,
+  StreamEvent,
+  Session,
+  Turn,
+  TaskStatus,
+  Skill,
+  FileNode,
+  AgentConfig,
+  Annotation,
+  AnnotationCreate,
 } from '../types';
 
 function delay(ms: number): Promise<void> {
@@ -106,12 +114,9 @@ export class MockAdapter implements AgentAdapter {
     session.updated_at = new Date().toISOString();
   }
 
-  async getSessions(
-    limit = 50,
-    offset = 0,
-  ): Promise<{ items: Session[]; total: number }> {
-    const all = [...this.sessions.values()].sort(
-      (a, b) => b.updated_at.localeCompare(a.updated_at),
+  async getSessions(limit = 50, offset = 0): Promise<{ items: Session[]; total: number }> {
+    const all = [...this.sessions.values()].sort((a, b) =>
+      b.updated_at.localeCompare(a.updated_at),
     );
     return { items: all.slice(offset, offset + limit), total: all.length };
   }
@@ -152,18 +157,12 @@ export class MockAdapter implements AgentAdapter {
     return ann;
   }
 
-  async removeAnnotation(
-    sessionId: string,
-    turnId: string,
-    annotationId: string,
-  ): Promise<void> {
+  async removeAnnotation(sessionId: string, turnId: string, annotationId: string): Promise<void> {
     const session = this.sessions.get(sessionId);
     if (!session) throw new Error(`Session ${sessionId} not found`);
     const turn = session.turns.find((t) => t.turn_id === turnId);
     if (!turn) throw new Error(`Turn ${turnId} not found`);
-    turn.annotations = turn.annotations.filter(
-      (a) => a.annotation_id !== annotationId,
-    );
+    turn.annotations = turn.annotations.filter((a) => a.annotation_id !== annotationId);
   }
 
   async submitComponentAction(actionId: string, _payload: unknown): Promise<void> {
@@ -174,14 +173,22 @@ export class MockAdapter implements AgentAdapter {
     }
   }
 
-  async getSkills(): Promise<Skill[]> { return mockSkills; }
+  async getSkills(): Promise<Skill[]> {
+    return mockSkills;
+  }
 
   async toggleSkill(name: string, enabled: boolean): Promise<void> {
     const skill = mockSkills.find((s) => s.name === name);
     if (skill) skill.enabled = enabled;
   }
 
-  async listFiles(_path?: string): Promise<FileNode[]> { return mockFiles; }
-  async getConfig(): Promise<AgentConfig> { return mockConfig; }
-  async updateConfig(patch: Partial<AgentConfig>): Promise<void> { Object.assign(mockConfig, patch); }
+  async listFiles(_path?: string): Promise<FileNode[]> {
+    return mockFiles;
+  }
+  async getConfig(): Promise<AgentConfig> {
+    return mockConfig;
+  }
+  async updateConfig(patch: Partial<AgentConfig>): Promise<void> {
+    Object.assign(mockConfig, patch);
+  }
 }

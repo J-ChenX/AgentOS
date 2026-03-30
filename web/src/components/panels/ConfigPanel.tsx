@@ -12,28 +12,66 @@ export default function ConfigPanel({ adapter }: { adapter: AgentAdapter }) {
   const handleChange = useCallback((section: string, key: string, value: string) => {
     setConfig((prev) => {
       if (!prev) return prev;
-      return { ...prev, [section]: { ...(prev as unknown as Record<string, Record<string, string>>)[section], [key]: value } };
+      return {
+        ...prev,
+        [section]: {
+          ...(prev as unknown as Record<string, Record<string, string>>)[section],
+          [key]: value,
+        },
+      };
     });
   }, []);
 
   const handleSave = useCallback(async () => {
     if (!config) return;
     setSaving(true);
-    try { await adapter.updateConfig(config); } finally { setSaving(false); }
+    try {
+      await adapter.updateConfig(config);
+    } finally {
+      setSaving(false);
+    }
   }, [adapter, config]);
 
   if (!config) {
     return (
-      <div style={{ padding: '16px', fontSize: 'var(--text-xs)', color: 'var(--color-ink-tertiary)', fontWeight: 300 }}>
+      <div
+        style={{
+          padding: '16px',
+          fontSize: 'var(--text-xs)',
+          color: 'var(--color-ink-tertiary)',
+          fontWeight: 300,
+        }}
+      >
         加载中...
       </div>
     );
   }
 
   const sections = [
-    { key: 'project', label: '项目', fields: [{ key: 'name', value: config.project.name }, { key: 'version', value: config.project.version }] },
-    { key: 'llm', label: 'LLM', fields: [{ key: 'model', value: config.llm.model }, { key: 'base_url', value: config.llm.base_url }] },
-    { key: 'agent', label: 'Agent', fields: [{ key: 'type', value: config.agent.type }, { key: 'max_iterations', value: String(config.agent.max_iterations) }] },
+    {
+      key: 'project',
+      label: '项目',
+      fields: [
+        { key: 'name', value: config.project.name },
+        { key: 'version', value: config.project.version },
+      ],
+    },
+    {
+      key: 'llm',
+      label: 'LLM',
+      fields: [
+        { key: 'model', value: config.llm.model },
+        { key: 'base_url', value: config.llm.base_url },
+      ],
+    },
+    {
+      key: 'agent',
+      label: 'Agent',
+      fields: [
+        { key: 'type', value: config.agent.type },
+        { key: 'max_iterations', value: String(config.agent.max_iterations) },
+      ],
+    },
   ];
 
   return (
@@ -42,9 +80,13 @@ export default function ConfigPanel({ adapter }: { adapter: AgentAdapter }) {
         <div key={section.key}>
           <div
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 400,
-              color: 'var(--color-ink-tertiary)', letterSpacing: '0.07em',
-              textTransform: 'uppercase', marginBottom: '8px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '10px',
+              fontWeight: 400,
+              color: 'var(--color-ink-tertiary)',
+              letterSpacing: '0.07em',
+              textTransform: 'uppercase',
+              marginBottom: '8px',
             }}
           >
             [{section.label}]
@@ -54,8 +96,12 @@ export default function ConfigPanel({ adapter }: { adapter: AgentAdapter }) {
               <div key={field.key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <label
                   style={{
-                    fontSize: 'var(--text-xs)', width: '112px', flexShrink: 0,
-                    color: 'var(--color-ink-secondary)', fontFamily: 'var(--font-body)', fontWeight: 400,
+                    fontSize: 'var(--text-xs)',
+                    width: '112px',
+                    flexShrink: 0,
+                    color: 'var(--color-ink-secondary)',
+                    fontFamily: 'var(--font-body)',
+                    fontWeight: 400,
                   }}
                 >
                   {field.key}
@@ -65,15 +111,22 @@ export default function ConfigPanel({ adapter }: { adapter: AgentAdapter }) {
                   value={field.value}
                   onChange={(e) => handleChange(section.key, field.key, e.target.value)}
                   style={{
-                    flex: 1, padding: '5px 8px', borderRadius: 'var(--radius-sm)',
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+                    flex: 1,
+                    padding: '5px 8px',
+                    borderRadius: 'var(--radius-sm)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 'var(--text-xs)',
                     color: 'var(--color-ink-primary)',
                     background: 'var(--color-bg-sunken)',
                     border: '1px solid var(--color-border-default)',
                     outline: 'none',
                   }}
-                  onFocus={(e) => { e.target.style.borderColor = 'var(--color-border-strong)'; }}
-                  onBlur={(e) => { e.target.style.borderColor = 'var(--color-border-default)'; }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-border-strong)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'var(--color-border-default)';
+                  }}
                 />
               </div>
             ))}
@@ -84,10 +137,16 @@ export default function ConfigPanel({ adapter }: { adapter: AgentAdapter }) {
         onClick={handleSave}
         disabled={saving}
         style={{
-          padding: '6px 16px', borderRadius: 'var(--radius-sm)',
-          fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 500,
-          background: 'var(--color-accent)', color: 'var(--color-ink-inverse)',
-          border: 'none', cursor: 'pointer', opacity: saving ? 0.4 : 1,
+          padding: '6px 16px',
+          borderRadius: 'var(--radius-sm)',
+          fontFamily: 'var(--font-body)',
+          fontSize: 'var(--text-xs)',
+          fontWeight: 500,
+          background: 'var(--color-accent)',
+          color: 'var(--color-ink-inverse)',
+          border: 'none',
+          cursor: 'pointer',
+          opacity: saving ? 0.4 : 1,
           alignSelf: 'flex-start',
         }}
       >

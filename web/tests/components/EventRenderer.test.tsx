@@ -21,8 +21,12 @@ describe('EventRenderer', () => {
 
   it('renders error event with error styling', () => {
     const event: StreamEvent = {
-      type: 'error', level: 'fatal', message: 'LLM 崩溃',
-      task_id: 't1', recoverable: false, seq: 1,
+      type: 'error',
+      level: 'fatal',
+      message: 'LLM 崩溃',
+      task_id: 't1',
+      recoverable: false,
+      seq: 1,
     };
     render(<EventRenderer event={event} components={{}} adapter={mockAdapter} />);
     expect(screen.getByText('LLM 崩溃')).toBeInTheDocument();
@@ -44,15 +48,19 @@ describe('EventRenderer', () => {
   it('skips task_started event (no visible UI)', () => {
     const event: StreamEvent = { type: 'task_started', task_id: 't1', seq: 1 };
     const { container } = render(
-      <EventRenderer event={event} components={{}} adapter={mockAdapter} />
+      <EventRenderer event={event} components={{}} adapter={mockAdapter} />,
     );
     expect(container.innerHTML).toBe('');
   });
 
   it('renders skill_call as running', () => {
     const event: StreamEvent = {
-      type: 'skill_call', id: 'call_1', skill: 'fetch_image',
-      args: { url: 'http://...' }, status: 'running', seq: 1,
+      type: 'skill_call',
+      id: 'call_1',
+      skill: 'fetch_image',
+      args: { url: 'http://...' },
+      status: 'running',
+      seq: 1,
     };
     render(<EventRenderer event={event} components={{}} adapter={mockAdapter} />);
     expect(screen.getByText('fetch_image')).toBeInTheDocument();
@@ -61,8 +69,13 @@ describe('EventRenderer', () => {
 
   it('renders skill_result done with duration', () => {
     const event: StreamEvent = {
-      type: 'skill_result', id: 'call_1', skill: 'fetch_image',
-      status: 'done', result: {}, duration_ms: 1240, seq: 2,
+      type: 'skill_result',
+      id: 'call_1',
+      skill: 'fetch_image',
+      status: 'done',
+      result: {},
+      duration_ms: 1240,
+      seq: 2,
     };
     render(<EventRenderer event={event} components={{}} adapter={mockAdapter} />);
     expect(screen.getByText('完成')).toBeInTheDocument();
@@ -71,7 +84,9 @@ describe('EventRenderer', () => {
 
   it('renders skill_result failed with error message', () => {
     const event: StreamEvent = {
-      type: 'skill_result', id: 'call_2', skill: 'match_template',
+      type: 'skill_result',
+      id: 'call_2',
+      skill: 'match_template',
       status: 'failed',
       error: { message: '文件未找到', code: 'FILE_NOT_FOUND', retryable: true },
       seq: 3,

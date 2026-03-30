@@ -11,19 +11,25 @@ function StatusBadge({ status }: { status: string }) {
   const bg = isDone
     ? 'rgba(74,124,92,0.1)'
     : isError
-    ? 'rgba(155,58,46,0.08)'
-    : 'var(--color-bg-sunken)';
+      ? 'rgba(155,58,46,0.08)'
+      : 'var(--color-bg-sunken)';
   const color = isDone
     ? 'var(--color-success)'
     : isError
-    ? 'var(--color-error)'
-    : 'var(--color-ink-secondary)';
+      ? 'var(--color-error)'
+      : 'var(--color-ink-secondary)';
   return (
     <span
       style={{
-        fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 400,
-        padding: '2px 6px', borderRadius: 'var(--radius-sm)',
-        background: bg, color, flexShrink: 0, letterSpacing: '0.04em',
+        fontFamily: 'var(--font-mono)',
+        fontSize: '9.5px',
+        fontWeight: 400,
+        padding: '2px 6px',
+        borderRadius: 'var(--radius-sm)',
+        background: bg,
+        color,
+        flexShrink: 0,
+        letterSpacing: '0.04em',
       }}
     >
       {status}
@@ -50,26 +56,29 @@ function SessionRow({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        padding: '10px 14px', cursor: 'pointer',
+        padding: '10px 14px',
+        cursor: 'pointer',
         borderBottom: '1px solid var(--color-border-subtle)',
         background: isActive
           ? 'var(--color-bg-sunken)'
           : hovered
-          ? 'var(--color-bg-raised)'
-          : 'transparent',
-        transition: 'background 0.1s', position: 'relative',
+            ? 'var(--color-bg-raised)'
+            : 'transparent',
+        transition: 'background 0.1s',
+        position: 'relative',
       }}
     >
-      <div
-        onClick={onSelect}
-        style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-      >
+      <div onClick={onSelect} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <span
           style={{
-            flex: 1, fontFamily: 'var(--font-body)', fontSize: '12.5px',
+            flex: 1,
+            fontFamily: 'var(--font-body)',
+            fontSize: '12.5px',
             fontWeight: isActive ? 500 : 400,
             color: 'var(--color-ink-primary)',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}
         >
           {DOMPurify.sanitize(session.title)}
@@ -79,7 +88,9 @@ function SessionRow({
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '3px' }}>
         <span
           style={{
-            flex: 1, fontFamily: 'var(--font-mono)', fontSize: '10px',
+            flex: 1,
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
             color: 'var(--color-ink-tertiary)',
           }}
         >
@@ -88,11 +99,18 @@ function SessionRow({
         {hovered && (
           <button
             aria-label="删除会话"
-            onClick={(e) => { e.stopPropagation(); onDelete(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
             style={{
-              background: 'transparent', border: 'none',
-              color: 'var(--color-ink-tertiary)', cursor: 'pointer', padding: '2px',
-              display: 'flex', alignItems: 'center',
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--color-ink-tertiary)',
+              cursor: 'pointer',
+              padding: '2px',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <Trash2 size={13} strokeWidth={1.6} />
@@ -129,7 +147,7 @@ export default function HistoryPanel({ adapter }: { adapter: AgentAdapter }) {
 
   useEffect(() => {
     loadMore();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleConfirmDelete = useCallback(async () => {
@@ -153,7 +171,7 @@ export default function HistoryPanel({ adapter }: { adapter: AgentAdapter }) {
   }, [pendingDeleteId, adapter, activeSessionId, navigateTo, loadMore]);
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex h-full flex-col overflow-y-auto">
       {pendingDeleteId && (
         <ConfirmModal
           message="确定删除此会话？删除后不可恢复。"
@@ -163,10 +181,12 @@ export default function HistoryPanel({ adapter }: { adapter: AgentAdapter }) {
       )}
       {sessions.length === 0 && !loading ? (
         <div
-          className="flex-1 flex items-center justify-center"
+          className="flex flex-1 items-center justify-center"
           style={{
             color: 'var(--color-ink-tertiary)',
-            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 300,
+            fontFamily: 'var(--font-body)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 300,
           }}
         >
           暂无历史记录
@@ -187,10 +207,14 @@ export default function HistoryPanel({ adapter }: { adapter: AgentAdapter }) {
               onClick={loadMore}
               disabled={loading}
               style={{
-                padding: '10px', textAlign: 'center',
+                padding: '10px',
+                textAlign: 'center',
                 color: 'var(--color-ink-secondary)',
-                fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)',
-                background: 'none', border: 'none', cursor: 'pointer',
+                fontFamily: 'var(--font-body)',
+                fontSize: 'var(--text-xs)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
               }}
             >
               {loading ? '加载中...' : '加载更多'}

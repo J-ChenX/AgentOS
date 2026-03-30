@@ -4,7 +4,9 @@ export default function CancelledCard() {
   return (
     <div
       style={{
-        display: 'flex', alignItems: 'center', gap: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
         padding: '7px 11px',
         background: 'var(--color-bg-raised)',
         border: '1px solid var(--color-border-subtle)',
@@ -14,8 +16,10 @@ export default function CancelledCard() {
       <CircleStop size={14} strokeWidth={1.8} style={{ color: 'var(--color-ink-tertiary)' }} />
       <span
         style={{
-          fontFamily: 'var(--font-body)', fontSize: '12px',
-          fontWeight: 300, color: 'var(--color-ink-tertiary)',
+          fontFamily: 'var(--font-body)',
+          fontSize: '12px',
+          fontWeight: 300,
+          color: 'var(--color-ink-tertiary)',
         }}
       >
         任务已取消

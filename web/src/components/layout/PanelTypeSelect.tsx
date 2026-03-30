@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-  MessageSquare, Clock, Folder, Settings, Plug, ChevronDown, Check,
-} from 'lucide-react';
+import { MessageSquare, Clock, Folder, Settings, Plug, ChevronDown, Check } from 'lucide-react';
 import type { ViewportType } from '../../types/layout';
 
-const TYPE_CONFIG: Record<string, { label: string; Icon: React.FC<{ size?: number; strokeWidth?: number }> }> = {
-  chat:    { label: '对话',     Icon: MessageSquare },
-  history: { label: '历史记录', Icon: Clock         },
-  files:   { label: '项目文件', Icon: Folder        },
-  config:  { label: '配置',     Icon: Settings      },
-  skills:  { label: 'Skills',  Icon: Plug          },
+const TYPE_CONFIG: Record<
+  string,
+  { label: string; Icon: React.FC<{ size?: number; strokeWidth?: number }> }
+> = {
+  chat: { label: '对话', Icon: MessageSquare },
+  history: { label: '历史记录', Icon: Clock },
+  files: { label: '项目文件', Icon: Folder },
+  config: { label: '配置', Icon: Settings },
+  skills: { label: 'Skills', Icon: Plug },
 };
 
 const ORDERED_TYPES: ViewportType[] = ['chat', 'history', 'files', 'config', 'skills'];
@@ -45,16 +46,21 @@ export default function PanelTypeSelect({ value, onChange }: PanelTypeSelectProp
         aria-haspopup="menu"
         aria-expanded={open}
         style={{
-          display: 'flex', alignItems: 'center', gap: '5px',
-          padding: '3px 7px 3px 6px', borderRadius: 'var(--radius-sm)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+          padding: '3px 7px 3px 6px',
+          borderRadius: 'var(--radius-sm)',
           background: open ? 'var(--color-bg-sunken)' : 'transparent',
           border: open ? '1px solid var(--color-border-strong)' : '1px solid transparent',
-          cursor: 'pointer', transition: 'background 0.15s, border-color 0.15s',
+          cursor: 'pointer',
+          transition: 'background 0.15s, border-color 0.15s',
         }}
         onMouseEnter={(e) => {
           if (!open) {
             (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-bg-sunken)';
-            (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-border-default)';
+            (e.currentTarget as HTMLButtonElement).style.borderColor =
+              'var(--color-border-default)';
           }
         }}
         onMouseLeave={(e) => {
@@ -65,14 +71,20 @@ export default function PanelTypeSelect({ value, onChange }: PanelTypeSelectProp
         }}
       >
         <Icon size={13} strokeWidth={1.8} />
-        <span style={{
-          fontFamily: 'var(--font-body)', fontSize: '11.5px', fontWeight: 500,
-          color: 'var(--color-ink-secondary)', letterSpacing: '0.01em',
-        }}>
+        <span
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '11.5px',
+            fontWeight: 500,
+            color: 'var(--color-ink-secondary)',
+            letterSpacing: '0.01em',
+          }}
+        >
           {label}
         </span>
         <ChevronDown
-          size={11} strokeWidth={2}
+          size={11}
+          strokeWidth={2}
           style={{
             color: 'var(--color-ink-tertiary)',
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
@@ -86,8 +98,11 @@ export default function PanelTypeSelect({ value, onChange }: PanelTypeSelectProp
         <div
           role="menu"
           style={{
-            position: 'absolute', top: 'calc(100% + 4px)', left: 0,
-            minWidth: '152px', zIndex: 100,
+            position: 'absolute',
+            top: 'calc(100% + 4px)',
+            left: 0,
+            minWidth: '152px',
+            zIndex: 100,
             background: 'var(--color-bg-surface)',
             border: '1px solid var(--color-border-default)',
             borderRadius: 'var(--radius-md)',
@@ -109,31 +124,50 @@ export default function PanelTypeSelect({ value, onChange }: PanelTypeSelectProp
                 <button
                   role="menuitem"
                   aria-checked={isActive}
-                  onClick={() => { onChange(type); setOpen(false); }}
+                  onClick={() => {
+                    onChange(type);
+                    setOpen(false);
+                  }}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '8px', width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    width: '100%',
                     padding: '7px 12px',
-                    fontFamily: 'var(--font-body)', fontSize: '12px',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
                     fontWeight: isActive ? 500 : 400,
                     color: isActive ? 'var(--color-ink-primary)' : 'var(--color-ink-secondary)',
                     background: isActive ? 'var(--color-bg-raised)' : 'transparent',
                     border: 'none',
                     borderBottom: isLast ? 'none' : '1px solid var(--color-border-subtle)',
-                    cursor: 'pointer', textAlign: 'left',
+                    cursor: 'pointer',
+                    textAlign: 'left',
                     transition: 'background 0.1s, color 0.1s',
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-bg-raised)';
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      'var(--color-bg-raised)';
                     (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-ink-primary)';
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = isActive ? 'var(--color-bg-raised)' : 'transparent';
-                    (e.currentTarget as HTMLButtonElement).style.color = isActive ? 'var(--color-ink-primary)' : 'var(--color-ink-secondary)';
+                    (e.currentTarget as HTMLButtonElement).style.background = isActive
+                      ? 'var(--color-bg-raised)'
+                      : 'transparent';
+                    (e.currentTarget as HTMLButtonElement).style.color = isActive
+                      ? 'var(--color-ink-primary)'
+                      : 'var(--color-ink-secondary)';
                   }}
                 >
                   <item.Icon size={13} strokeWidth={1.8} />
                   <span style={{ flex: 1 }}>{item.label}</span>
-                  {isActive && <Check size={12} strokeWidth={2} style={{ color: 'var(--color-ink-secondary)' }} />}
+                  {isActive && (
+                    <Check
+                      size={12}
+                      strokeWidth={2}
+                      style={{ color: 'var(--color-ink-secondary)' }}
+                    />
+                  )}
                 </button>
               </div>
             );

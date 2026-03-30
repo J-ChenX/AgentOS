@@ -1,10 +1,24 @@
 import type {
-  StreamEvent, TaskStartedEvent, ThinkingEvent,
-  SkillCallEvent, SkillResultEvent, TextEvent,
-  ComponentEvent, ComponentDeltaEvent, ActionRequiredEvent,
-  ErrorEvent, DoneEvent, CancelledEvent,
-  TaskRecord, Skill, FileNode, AgentConfig, AgentAdapter,
-  PanelType, ComponentType, DeltaOp
+  StreamEvent,
+  TaskStartedEvent,
+  ThinkingEvent,
+  SkillCallEvent,
+  SkillResultEvent,
+  TextEvent,
+  ComponentEvent,
+  ComponentDeltaEvent,
+  ActionRequiredEvent,
+  ErrorEvent,
+  DoneEvent,
+  CancelledEvent,
+  TaskRecord,
+  Skill,
+  FileNode,
+  AgentConfig,
+  AgentAdapter,
+  PanelType,
+  ComponentType,
+  DeltaOp,
 } from '../src/types';
 
 describe('StreamEvent types', () => {

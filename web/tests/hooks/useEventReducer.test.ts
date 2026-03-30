@@ -1,8 +1,4 @@
-import {
-  chatReducer,
-  initialChatState,
-  type ChatState,
-} from '../../src/hooks/useEventReducer';
+import { chatReducer, initialChatState, type ChatState } from '../../src/hooks/useEventReducer';
 import type {
   TaskStartedEvent,
   ThinkingEvent,
@@ -52,8 +48,11 @@ describe('chatReducer', () => {
 
   it('handles component event (registers component)', () => {
     const event: ComponentEvent = {
-      type: 'component', id: 'comp_1', component_type: 'data_table',
-      data: { columns: ['A', 'B'], rows: [] }, seq: 3,
+      type: 'component',
+      id: 'comp_1',
+      component_type: 'data_table',
+      data: { columns: ['A', 'B'], rows: [] },
+      seq: 3,
     };
     const state = chatReducer(initialChatState, { type: 'PUSH_EVENT', event });
     expect(state.components['comp_1']).toBeDefined();
@@ -65,13 +64,20 @@ describe('chatReducer', () => {
     let state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'c1', component_type: 'data_table',
-        data: { columns: ['A'], rows: [] }, seq: 1,
+        type: 'component',
+        id: 'c1',
+        component_type: 'data_table',
+        data: { columns: ['A'], rows: [] },
+        seq: 1,
       },
     });
     const delta: ComponentDeltaEvent = {
-      type: 'component_delta', id: 'c1', op: 'append',
-      path: '/rows', value: { A: 'hello' }, seq: 2,
+      type: 'component_delta',
+      id: 'c1',
+      op: 'append',
+      path: '/rows',
+      value: { A: 'hello' },
+      seq: 2,
     };
     state = chatReducer(state, { type: 'PUSH_EVENT', event: delta });
     const rows = (state.components['c1'].data as any).rows;
@@ -83,15 +89,22 @@ describe('chatReducer', () => {
     let state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'c1', component_type: 'data_table',
-        data: { title: 'old' }, seq: 1,
+        type: 'component',
+        id: 'c1',
+        component_type: 'data_table',
+        data: { title: 'old' },
+        seq: 1,
       },
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component_delta', id: 'c1', op: 'set',
-        path: '/title', value: 'new', seq: 2,
+        type: 'component_delta',
+        id: 'c1',
+        op: 'set',
+        path: '/title',
+        value: 'new',
+        seq: 2,
       },
     });
     expect((state.components['c1'].data as any).title).toBe('new');
@@ -101,15 +114,22 @@ describe('chatReducer', () => {
     let state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'c1', component_type: 'data_table',
-        data: { meta: { total: 0, status: 'pending' } }, seq: 1,
+        type: 'component',
+        id: 'c1',
+        component_type: 'data_table',
+        data: { meta: { total: 0, status: 'pending' } },
+        seq: 1,
       },
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component_delta', id: 'c1', op: 'merge',
-        path: '/meta', value: { total: 24 }, seq: 2,
+        type: 'component_delta',
+        id: 'c1',
+        op: 'merge',
+        path: '/meta',
+        value: { total: 24 },
+        seq: 2,
       },
     });
     const meta = (state.components['c1'].data as any).meta;
@@ -121,15 +141,22 @@ describe('chatReducer', () => {
     let state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'c1', component_type: 'data_table',
-        data: { old: true }, seq: 1,
+        type: 'component',
+        id: 'c1',
+        component_type: 'data_table',
+        data: { old: true },
+        seq: 1,
       },
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component_delta', id: 'c1', op: 'replace',
-        path: '/', value: { brand: 'new' }, seq: 2,
+        type: 'component_delta',
+        id: 'c1',
+        op: 'replace',
+        path: '/',
+        value: { brand: 'new' },
+        seq: 2,
       },
     });
     expect((state.components['c1'].data as any).brand).toBe('new');
@@ -138,10 +165,13 @@ describe('chatReducer', () => {
 
   it('handles action_required (sets pendingAction)', () => {
     const event: ActionRequiredEvent = {
-      type: 'action_required', action_id: 'act_1',
+      type: 'action_required',
+      action_id: 'act_1',
       component_type: 'confirm_dialog',
       data: { message: 'Continue?', options: ['Yes', 'No'] },
-      blocking: true, timeout_ms: 120000, seq: 5,
+      blocking: true,
+      timeout_ms: 120000,
+      seq: 5,
     };
     const state = chatReducer(initialChatState, { type: 'PUSH_EVENT', event });
     expect(state.pendingAction).toBe(event);
@@ -159,8 +189,12 @@ describe('chatReducer', () => {
     const state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'error', level: 'fatal', message: 'LLM crash',
-        task_id: 't1', recoverable: false, seq: 10,
+        type: 'error',
+        level: 'fatal',
+        message: 'LLM crash',
+        task_id: 't1',
+        recoverable: false,
+        seq: 10,
       },
     });
     expect(state.status).toBe('error');
@@ -187,8 +221,12 @@ describe('chatReducer', () => {
     const state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component_delta', id: 'nonexistent', op: 'set',
-        path: '/foo', value: 'bar', seq: 1,
+        type: 'component_delta',
+        id: 'nonexistent',
+        op: 'set',
+        path: '/foo',
+        value: 'bar',
+        seq: 1,
       },
     });
     expect(Object.keys(state.components)).toHaveLength(0);
@@ -216,16 +254,23 @@ describe('chatReducer', () => {
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'tbl', component_type: 'data_table',
-        data: { columns: ['A', 'B'], rows: [] }, seq: 1,
+        type: 'component',
+        id: 'tbl',
+        component_type: 'data_table',
+        data: { columns: ['A', 'B'], rows: [] },
+        seq: 1,
       },
     });
     for (let i = 0; i < 5; i++) {
       state = chatReducer(state, {
         type: 'PUSH_EVENT',
         event: {
-          type: 'component_delta', id: 'tbl', op: 'append',
-          path: '/rows', value: { A: `row${i}`, B: i }, seq: i + 2,
+          type: 'component_delta',
+          id: 'tbl',
+          op: 'append',
+          path: '/rows',
+          value: { A: `row${i}`, B: i },
+          seq: i + 2,
         },
       });
     }
@@ -239,15 +284,22 @@ describe('chatReducer', () => {
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component', id: 'pb', component_type: 'progress_bar',
-        data: { current: 0, total: 10, label: 'Processing' }, seq: 1,
+        type: 'component',
+        id: 'pb',
+        component_type: 'progress_bar',
+        data: { current: 0, total: 10, label: 'Processing' },
+        seq: 1,
       },
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
       event: {
-        type: 'component_delta', id: 'pb', op: 'merge',
-        path: '/', value: { current: 7 }, seq: 2,
+        type: 'component_delta',
+        id: 'pb',
+        op: 'merge',
+        path: '/',
+        value: { current: 7 },
+        seq: 2,
       },
     });
     const data = state.components['pb'].data as any;
@@ -289,7 +341,7 @@ describe('chatReducer', () => {
       });
     }
     expect(state.events).toHaveLength(1);
-    expect(state.events.every(e => e.type !== 'text_delta')).toBe(true);
+    expect(state.events.every((e) => e.type !== 'text_delta')).toBe(true);
     expect((state.events[0] as TextEvent).content).toBe('ABC');
   });
 
@@ -324,7 +376,12 @@ describe('chatReducer', () => {
     // Turn 1: user message + text event
     let state = chatReducer(initialChatState, {
       type: 'PUSH_EVENT',
-      event: { type: 'user_message', content: 'turn1 question', turn_id: 't1', seq: 1 } as UserMessageEvent,
+      event: {
+        type: 'user_message',
+        content: 'turn1 question',
+        turn_id: 't1',
+        seq: 1,
+      } as UserMessageEvent,
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
@@ -333,7 +390,12 @@ describe('chatReducer', () => {
     // Turn 2: new user message, then text_delta
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
-      event: { type: 'user_message', content: 'turn2 question', turn_id: 't2', seq: 3 } as UserMessageEvent,
+      event: {
+        type: 'user_message',
+        content: 'turn2 question',
+        turn_id: 't2',
+        seq: 3,
+      } as UserMessageEvent,
     });
     state = chatReducer(state, {
       type: 'PUSH_EVENT',
@@ -348,7 +410,10 @@ describe('chatReducer', () => {
     const turn1Text = state.events.find(
       (e, i) =>
         e.type === 'text' &&
-        i < state.events.findIndex((ev) => ev.type === 'user_message' && (ev as UserMessageEvent).turn_id === 't2'),
+        i <
+          state.events.findIndex(
+            (ev) => ev.type === 'user_message' && (ev as UserMessageEvent).turn_id === 't2',
+          ),
     ) as TextEvent | undefined;
     expect(turn1Text?.content).toBe('Turn1 answer');
 
@@ -374,19 +439,32 @@ describe('chatReducer', () => {
 
     const afterUser = chatReducer(withAction, {
       type: 'PUSH_EVENT',
-      event: { type: 'user_message', content: 'next turn', turn_id: 't2', seq: 2 } as UserMessageEvent,
+      event: {
+        type: 'user_message',
+        content: 'next turn',
+        turn_id: 't2',
+        seq: 2,
+      } as UserMessageEvent,
     });
     expect(afterUser.pendingAction).toBeNull();
   });
 
   it('skill_result merges into matching skill_call in PUSH_EVENT', () => {
     const call: SkillCallEvent = {
-      type: 'skill_call', id: 'sc1', skill: 'shell',
-      args: { command: 'ls' }, status: 'running', seq: 1,
+      type: 'skill_call',
+      id: 'sc1',
+      skill: 'shell',
+      args: { command: 'ls' },
+      status: 'running',
+      seq: 1,
     };
     const result: SkillResultEvent = {
-      type: 'skill_result', id: 'sc1', skill: 'shell',
-      status: 'done', result: 'ok', seq: 2,
+      type: 'skill_result',
+      id: 'sc1',
+      skill: 'shell',
+      status: 'done',
+      result: 'ok',
+      seq: 2,
     };
     let state = chatReducer(initialChatState, { type: 'PUSH_EVENT', event: call });
     state = chatReducer(state, { type: 'PUSH_EVENT', event: result });
@@ -437,18 +515,20 @@ describe('BULK_LOAD', () => {
 
   it('merges text_delta events into text', () => {
     const session = makeSession({
-      turns: [{
-        turn_id: 't1',
-        user_message: 'hi',
-        created_at: new Date().toISOString(),
-        status: 'done',
-        annotations: [],
-        events: [
-          { type: 'text_delta', content: 'A', seq: 1 },
-          { type: 'text_delta', content: 'B', seq: 2 },
-          { type: 'done', task_id: 't1', summary: '', seq: 3 },
-        ],
-      }],
+      turns: [
+        {
+          turn_id: 't1',
+          user_message: 'hi',
+          created_at: new Date().toISOString(),
+          status: 'done',
+          annotations: [],
+          events: [
+            { type: 'text_delta', content: 'A', seq: 1 },
+            { type: 'text_delta', content: 'B', seq: 2 },
+            { type: 'done', task_id: 't1', summary: '', seq: 3 },
+          ],
+        },
+      ],
     });
     const state = chatReducer(initialChatState, { type: 'BULK_LOAD', session });
     const textEvent = state.events.find((e) => e.type === 'text');
@@ -465,8 +545,22 @@ describe('BULK_LOAD', () => {
           status: 'done',
           annotations: [],
           events: [
-            { type: 'skill_call', id: 'sc1', skill: 'shell', args: { command: 'ls' }, status: 'running', seq: 1 },
-            { type: 'skill_result', id: 'sc1', skill: 'shell', status: 'done', result: 'ok', seq: 2 },
+            {
+              type: 'skill_call',
+              id: 'sc1',
+              skill: 'shell',
+              args: { command: 'ls' },
+              status: 'running',
+              seq: 1,
+            },
+            {
+              type: 'skill_result',
+              id: 'sc1',
+              skill: 'shell',
+              status: 'done',
+              result: 'ok',
+              seq: 2,
+            },
             { type: 'done', task_id: 't1', summary: '', seq: 3 },
           ],
         },

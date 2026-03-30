@@ -26,8 +26,7 @@ function createAdapter(): AgentAdapter {
 
 export default function App() {
   const adapter = useMemo(() => createAdapter(), []);
-  const { layout, updateViewportType, splitViewport, closeViewport } =
-    useLayoutPersistence();
+  const { layout, updateViewportType, splitViewport, closeViewport } = useLayoutPersistence();
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
 
   const navigateTo = useCallback((id: string | null) => {

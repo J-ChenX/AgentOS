@@ -5,10 +5,7 @@ import { MockAdapter } from '../../src/adapter/mock';
 import { SessionNavContext } from '../../src/App';
 import type { SessionNavContextValue } from '../../src/App';
 
-function renderChat(
-  adapter: MockAdapter,
-  navCtx: Partial<SessionNavContextValue> = {},
-) {
+function renderChat(adapter: MockAdapter, navCtx: Partial<SessionNavContextValue> = {}) {
   const ctx: SessionNavContextValue = {
     activeSessionId: null,
     navigateTo: () => {},
@@ -48,7 +45,9 @@ describe('ChatPanel', () => {
 describe('ChatPanel — history mode', () => {
   async function seedAdapter(adapter: MockAdapter, userMessage: string) {
     const { session_id, turn_id } = await adapter.createSession(userMessage);
-    for await (const _e of adapter.streamTurn(session_id, turn_id)) { /* drain */ }
+    for await (const _e of adapter.streamTurn(session_id, turn_id)) {
+      /* drain */
+    }
     return { session_id };
   }
 

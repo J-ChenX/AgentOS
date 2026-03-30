@@ -8,19 +8,26 @@ export default function ReconnectionBanner({ visible }: ReconnectionBannerProps)
   return (
     <div
       style={{
-        display: 'flex', alignItems: 'center', gap: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
         padding: '7px 14px',
         background: 'rgba(138,106,28,0.07)',
         borderTop: '1px solid rgba(138,106,28,0.2)',
-        fontFamily: 'var(--font-body)', fontSize: '12px',
-        color: 'var(--color-warning)', fontWeight: 400,
+        fontFamily: 'var(--font-body)',
+        fontSize: '12px',
+        color: 'var(--color-warning)',
+        fontWeight: 400,
         flexShrink: 0,
       }}
     >
       <span
         style={{
-          display: 'inline-block', width: '6px', height: '6px',
-          borderRadius: '50%', background: 'var(--color-warning)',
+          display: 'inline-block',
+          width: '6px',
+          height: '6px',
+          borderRadius: '50%',
+          background: 'var(--color-warning)',
           animation: 'warning-blink 1s ease-in-out infinite',
           flexShrink: 0,
         }}

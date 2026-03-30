@@ -2,7 +2,13 @@ import { useRef, useEffect } from 'react';
 import EventRenderer from '../events/EventRenderer';
 import AnnotatedText from './AnnotatedText';
 import ThinkingBubble from '../events/ThinkingBubble';
-import type { StreamEvent, UserMessageEvent, AgentAdapter, Annotation, AnnotationCreate } from '../../types';
+import type {
+  StreamEvent,
+  UserMessageEvent,
+  AgentAdapter,
+  Annotation,
+  AnnotationCreate,
+} from '../../types';
 import type { ComponentState } from '../../hooks/useEventReducer';
 
 export interface AnnotationContext {
@@ -28,8 +34,11 @@ function TimeDivider({ timestamp }: { timestamp?: string }) {
       <div style={{ flex: 1, height: '1px', background: 'var(--color-border-subtle)' }} />
       <span
         style={{
-          fontSize: 'var(--text-xs)', color: 'var(--color-ink-tertiary)',
-          fontFamily: 'var(--font-body)', fontWeight: 300, letterSpacing: '0.04em',
+          fontSize: 'var(--text-xs)',
+          color: 'var(--color-ink-tertiary)',
+          fontFamily: 'var(--font-body)',
+          fontWeight: 300,
+          letterSpacing: '0.04em',
         }}
       >
         {label}
@@ -59,10 +68,12 @@ export default function MessageList({
   if (events.length === 0) {
     return (
       <div
-        className="flex-1 flex items-center justify-center"
+        className="flex flex-1 items-center justify-center"
         style={{
           color: 'var(--color-ink-tertiary)',
-          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 300,
+          fontFamily: 'var(--font-body)',
+          fontSize: 'var(--text-sm)',
+          fontWeight: 300,
         }}
       >
         发送任务以开始
@@ -71,10 +82,7 @@ export default function MessageList({
   }
 
   // Find index of last user_message to determine if current turn is running
-  const lastUserMsgIdx = events.reduce(
-    (last, e, i) => (e.type === 'user_message' ? i : last),
-    -1,
-  );
+  const lastUserMsgIdx = events.reduce((last, e, i) => (e.type === 'user_message' ? i : last), -1);
 
   // Determine if the very last visible event is a user_message (no response yet)
   const lastVisibleEvent = [...events].reverse().find((e) => !SKIP_EVENTS.has(e.type));
@@ -135,9 +143,7 @@ export default function MessageList({
           );
         }
 
-        return (
-          <EventRenderer key={i} event={event} components={components} adapter={adapter} />
-        );
+        return <EventRenderer key={i} event={event} components={components} adapter={adapter} />;
       })}
       {isWaitingForResponse && <ThinkingBubble content="思考中..." />}
       <div ref={endRef} />

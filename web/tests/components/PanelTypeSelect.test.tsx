@@ -33,7 +33,7 @@ describe('PanelTypeSelect', () => {
       <div>
         <PanelTypeSelect value="chat" onChange={() => {}} />
         <div data-testid="outside">outside</div>
-      </div>
+      </div>,
     );
     fireEvent.click(screen.getByText('对话'));
     expect(screen.getByRole('menu')).toBeInTheDocument();

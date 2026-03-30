@@ -10,14 +10,18 @@ function loadLayout(): ViewportNode {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-  } catch { /* intentionally empty */ }
+  } catch {
+    /* intentionally empty */
+  }
   return DEFAULT_LAYOUT;
 }
 
 function saveLayout(layout: ViewportNode) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
-  } catch { /* intentionally empty */ }
+  } catch {
+    /* intentionally empty */
+  }
 }
 
 function findNode(draft: ViewportNode, id: string): ViewportNode | null {
@@ -48,16 +52,13 @@ function findParent(
 function usePersistentLayout() {
   const [layout, setLayoutState] = useState<ViewportNode>(loadLayout);
 
-  const update = useCallback(
-    (recipe: (draft: ViewportNode) => void) => {
-      setLayoutState((prev) => {
-        const next = produce(prev, recipe);
-        saveLayout(next);
-        return next;
-      });
-    },
-    [],
-  );
+  const update = useCallback((recipe: (draft: ViewportNode) => void) => {
+    setLayoutState((prev) => {
+      const next = produce(prev, recipe);
+      saveLayout(next);
+      return next;
+    });
+  }, []);
 
   return { layout, update };
 }

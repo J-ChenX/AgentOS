@@ -30,8 +30,12 @@ describe('WebAdapter', () => {
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
-        controller.enqueue(encoder.encode('data: {"type":"task_started","task_id":"turn_1","seq":1}\n\n'));
-        controller.enqueue(encoder.encode('data: {"type":"done","task_id":"turn_1","summary":"ok","seq":2}\n\n'));
+        controller.enqueue(
+          encoder.encode('data: {"type":"task_started","task_id":"turn_1","seq":1}\n\n'),
+        );
+        controller.enqueue(
+          encoder.encode('data: {"type":"done","task_id":"turn_1","summary":"ok","seq":2}\n\n'),
+        );
         controller.close();
       },
     });

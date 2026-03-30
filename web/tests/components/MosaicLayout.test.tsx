@@ -14,9 +14,7 @@ describe('MosaicLayout', () => {
     // PanelTypeSelect renders a button with aria-haspopup="menu" as the trigger
     const selectors = screen.getAllByRole('button', { expanded: false });
     // Filter to the panel type trigger buttons (aria-haspopup="menu")
-    const typeButtons = selectors.filter(
-      (btn) => btn.getAttribute('aria-haspopup') === 'menu',
-    );
+    const typeButtons = selectors.filter((btn) => btn.getAttribute('aria-haspopup') === 'menu');
     expect(typeButtons.length).toBeGreaterThanOrEqual(2);
   });
 });

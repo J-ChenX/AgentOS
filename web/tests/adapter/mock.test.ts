@@ -36,7 +36,7 @@ describe('MockAdapter', () => {
     const original = skills[0].enabled;
     await adapter.toggleSkill(name, !original);
     const updated = await adapter.getSkills();
-    expect(updated.find(s => s.name === name)!.enabled).toBe(!original);
+    expect(updated.find((s) => s.name === name)!.enabled).toBe(!original);
   });
 
   it('listFiles returns FileNode[]', async () => {
@@ -62,7 +62,9 @@ describe('MockAdapter', () => {
     it('addTurn returns turn_id', async () => {
       const { session_id, turn_id } = await adapter.createSession('first');
       // drain first turn
-      for await (const _ of adapter.streamTurn(session_id, turn_id)) { /* drain */ }
+      for await (const _ of adapter.streamTurn(session_id, turn_id)) {
+        /* drain */
+      }
       const result = await adapter.addTurn(session_id, 'second');
       expect(result.turn_id).toBeTruthy();
     });

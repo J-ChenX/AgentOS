@@ -16,22 +16,10 @@ interface LayoutRootProps extends LayoutHandlers {
   isRoot?: boolean;
 }
 
-export default function LayoutRoot({
-  node,
-  adapter,
-  isRoot = true,
-  ...handlers
-}: LayoutRootProps) {
+export default function LayoutRoot({ node, adapter, isRoot = true, ...handlers }: LayoutRootProps) {
   // Leaf node -> render viewport
   if (!node.children) {
-    return (
-      <ViewportContainer
-        node={node}
-        adapter={adapter}
-        canClose={!isRoot}
-        {...handlers}
-      />
-    );
+    return <ViewportContainer node={node} adapter={adapter} canClose={!isRoot} {...handlers} />;
   }
 
   // Split node -> render Allotment
@@ -42,12 +30,7 @@ export default function LayoutRoot({
     <Allotment vertical={allotmentVertical} defaultSizes={node.sizes}>
       {node.children.map((child) => (
         <Allotment.Pane key={child.id}>
-          <LayoutRoot
-            node={child}
-            adapter={adapter}
-            isRoot={false}
-            {...handlers}
-          />
+          <LayoutRoot node={child} adapter={adapter} isRoot={false} {...handlers} />
         </Allotment.Pane>
       ))}
     </Allotment>

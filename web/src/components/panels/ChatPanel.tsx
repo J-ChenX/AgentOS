@@ -40,30 +40,33 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
     const requestedId = activeSessionId;
     latestRequestedIdRef.current = requestedId;
 
-    adapter.getSession(requestedId).then((session) => {
-      // Race condition guard: discard if a newer navigation happened
-      if (latestRequestedIdRef.current !== requestedId) return;
+    adapter
+      .getSession(requestedId)
+      .then((session) => {
+        // Race condition guard: discard if a newer navigation happened
+        if (latestRequestedIdRef.current !== requestedId) return;
 
-      dispatch({ type: 'BULK_LOAD', session });
-      setSessionId(session.session_id);
-      setSessionTitle(session.title);
-      setSendError(null);
-      setReconnecting(false);
+        dispatch({ type: 'BULK_LOAD', session });
+        setSessionId(session.session_id);
+        setSessionTitle(session.title);
+        setSendError(null);
+        setReconnecting(false);
 
-      // Populate annotation map from all turns
-      const map = new Map<string, Annotation[]>();
-      for (const turn of session.turns) {
-        if (turn.annotations?.length) {
-          map.set(turn.turn_id, turn.annotations);
+        // Populate annotation map from all turns
+        const map = new Map<string, Annotation[]>();
+        for (const turn of session.turns) {
+          if (turn.annotations?.length) {
+            map.set(turn.turn_id, turn.annotations);
+          }
         }
-      }
-      setAnnotationMap(map);
-    }).catch((err) => {
-      if (latestRequestedIdRef.current !== requestedId) return;
-      console.error('Failed to load session:', err);
-      setSendError('无法加载历史对话，请重试或开启新对话');
-      dispatch({ type: 'RESET' });
-    });
+        setAnnotationMap(map);
+      })
+      .catch((err) => {
+        if (latestRequestedIdRef.current !== requestedId) return;
+        console.error('Failed to load session:', err);
+        setSendError('无法加载历史对话，请重试或开启新对话');
+        dispatch({ type: 'RESET' });
+      });
   }, [activeSessionId, adapter]);
 
   const handleSend = useCallback(
@@ -177,7 +180,10 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
         await adapter.removeAnnotation(sessionId, turnId, annotationId);
         setAnnotationMap((prev) => {
           const next = new Map(prev);
-          next.set(turnId, (next.get(turnId) ?? []).filter((a) => a.annotation_id !== annotationId));
+          next.set(
+            turnId,
+            (next.get(turnId) ?? []).filter((a) => a.annotation_id !== annotationId),
+          );
           return next;
         });
       },
@@ -187,7 +193,7 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
   const isRunning = state.status === 'running';
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       {showDeleteConfirm && (
         <ConfirmModal
           message="确定删除此会话？删除后不可恢复。"
@@ -200,20 +206,25 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
       )}
       <div
         style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '4px 12px', flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '4px 12px',
+          flexShrink: 0,
           borderBottom: '1px solid var(--color-border-subtle)',
         }}
       >
         <button
           onClick={handleNewChat}
           style={{
-            fontSize: 'var(--text-xs)', padding: '3px 10px',
+            fontSize: 'var(--text-xs)',
+            padding: '3px 10px',
             borderRadius: 'var(--radius-sm)',
             border: '1px solid var(--color-border-default)',
             background: 'transparent',
             color: 'var(--color-ink-secondary)',
-            cursor: 'pointer', fontFamily: 'var(--font-body)',
+            cursor: 'pointer',
+            fontFamily: 'var(--font-body)',
           }}
         >
           新对话
@@ -222,9 +233,14 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
           <span
             title={sessionTitle}
             style={{
-              flex: 1, fontSize: 'var(--text-xs)', color: 'var(--color-ink-secondary)',
-              fontFamily: 'var(--font-body)', fontWeight: 400,
-              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              flex: 1,
+              fontSize: 'var(--text-xs)',
+              color: 'var(--color-ink-secondary)',
+              fontFamily: 'var(--font-body)',
+              fontWeight: 400,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
               textAlign: 'center',
             }}
           >
@@ -236,13 +252,18 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
             aria-label="删除会话"
             onClick={() => setShowDeleteConfirm(true)}
             style={{
-              fontSize: 'var(--text-xs)', padding: '3px 8px',
+              fontSize: 'var(--text-xs)',
+              padding: '3px 8px',
               borderRadius: 'var(--radius-sm)',
               border: '1px solid rgba(155,58,46,0.2)',
               background: 'rgba(155,58,46,0.06)',
               color: 'var(--color-error)',
-              cursor: 'pointer', fontFamily: 'var(--font-body)',
-              display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0,
+              cursor: 'pointer',
+              fontFamily: 'var(--font-body)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              flexShrink: 0,
             }}
           >
             <Trash2 size={11} strokeWidth={1.8} />
@@ -260,8 +281,10 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
       {sendError && (
         <div
           style={{
-            padding: '6px 14px', flexShrink: 0,
-            fontSize: 'var(--text-xs)', color: 'var(--color-error)',
+            padding: '6px 14px',
+            flexShrink: 0,
+            fontSize: 'var(--text-xs)',
+            color: 'var(--color-error)',
             fontFamily: 'var(--font-body)',
           }}
         >
@@ -273,12 +296,14 @@ export default function ChatPanel({ adapter }: { adapter: AgentAdapter }) {
           <button
             onClick={handleCancel}
             style={{
-              fontSize: 'var(--text-xs)', padding: '3px 10px',
+              fontSize: 'var(--text-xs)',
+              padding: '3px 10px',
               borderRadius: 'var(--radius-sm)',
               border: '1px solid var(--color-border-default)',
               background: 'transparent',
               color: 'var(--color-ink-secondary)',
-              cursor: 'pointer', fontFamily: 'var(--font-body)',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-body)',
               transition: 'background 0.15s, border-color 0.15s, color 0.15s',
             }}
             onMouseEnter={(e) => {

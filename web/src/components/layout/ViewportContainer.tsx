@@ -14,19 +14,30 @@ interface ViewportContainerProps {
 }
 
 function PanelButton({
-  onClick, title, isClose = false, children,
+  onClick,
+  title,
+  isClose = false,
+  children,
 }: {
-  onClick: () => void; title: string; isClose?: boolean; children: React.ReactNode;
+  onClick: () => void;
+  title: string;
+  isClose?: boolean;
+  children: React.ReactNode;
 }) {
   return (
     <button
       onClick={onClick}
       title={title}
       style={{
-        width: '22px', height: '22px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        borderRadius: 'var(--radius-sm)', background: 'transparent',
-        border: '1px solid transparent', cursor: 'pointer',
+        width: '22px',
+        height: '22px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 'var(--radius-sm)',
+        background: 'transparent',
+        border: '1px solid transparent',
+        cursor: 'pointer',
         color: 'var(--color-ink-tertiary)',
         transition: 'background 0.15s, border-color 0.15s, color 0.15s',
       }}
@@ -55,14 +66,23 @@ function PanelButton({
 }
 
 export default function ViewportContainer({
-  node, adapter, onUpdateType, onSplit, onClose, canClose,
+  node,
+  adapter,
+  onUpdateType,
+  onSplit,
+  onClose,
+  canClose,
 }: ViewportContainerProps) {
   return (
-    <div className="flex flex-col h-full" style={{ background: 'var(--color-bg-surface)' }}>
+    <div className="flex h-full flex-col" style={{ background: 'var(--color-bg-surface)' }}>
       <header
         style={{
-          height: '30px', display: 'flex', alignItems: 'center',
-          padding: '0 8px', gap: '4px', flexShrink: 0,
+          height: '30px',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 8px',
+          gap: '4px',
+          flexShrink: 0,
           background: 'var(--color-bg-raised)',
           borderBottom: '1px solid var(--color-border-subtle)',
         }}
@@ -72,7 +92,14 @@ export default function ViewportContainer({
           onChange={(type) => onUpdateType(node.id, type)}
         />
 
-        <div style={{ width: '1px', height: '14px', background: 'var(--color-border-default)', margin: '0 4px' }} />
+        <div
+          style={{
+            width: '1px',
+            height: '14px',
+            background: 'var(--color-border-default)',
+            margin: '0 4px',
+          }}
+        />
         <div style={{ flex: 1 }} />
 
         <PanelButton onClick={() => onSplit(node.id, 'vertical')} title="纵向分割">
@@ -87,9 +114,7 @@ export default function ViewportContainer({
           </PanelButton>
         )}
       </header>
-      <div className="flex-1 overflow-hidden">
-        {renderWidget(node.type ?? 'chat', adapter)}
-      </div>
+      <div className="flex-1 overflow-hidden">{renderWidget(node.type ?? 'chat', adapter)}</div>
     </div>
   );
 }

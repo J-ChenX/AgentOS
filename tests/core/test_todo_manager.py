@@ -2,6 +2,7 @@ import json
 
 from agentos.builtin_skills.todo_manager.skill import update_todos
 
+
 class TestUpdateTodos:
     def test_returns_todos_updated_action(self):
         todos = json.dumps([

@@ -66,10 +66,7 @@ function setAtPath(obj: Record<string, unknown>, path: string, value: unknown): 
 }
 
 // Mutations inside produce() are safe — they operate on Immer draft proxies
-function applyDelta(
-  components: Record<string, ComponentState>,
-  event: ComponentDeltaEvent,
-): void {
+function applyDelta(components: Record<string, ComponentState>, event: ComponentDeltaEvent): void {
   const comp = components[event.id];
   if (!comp) return;
 
@@ -120,7 +117,10 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
               );
               if (callIdx >= 0) {
                 const callArgs = (draft.events[callIdx] as SkillCallEvent).args;
-                draft.events.splice(callIdx, 1, { ...event, args: callArgs } as unknown as StreamEvent);
+                draft.events.splice(callIdx, 1, {
+                  ...event,
+                  args: callArgs,
+                } as unknown as StreamEvent);
               } else {
                 draft.events.push(event);
               }
@@ -181,9 +181,7 @@ export function chatReducer(state: ChatState, action: ChatAction): ChatState {
         // ── text_delta pre-intercept: scope search to current turn only ──────────
         if (event.type === 'text_delta') {
           // Search only after the last user_message event to prevent cross-turn bleed
-          const lastUserMsgIdx = draft.events.findLastIndex(
-            (e) => e.type === 'user_message',
-          );
+          const lastUserMsgIdx = draft.events.findLastIndex((e) => e.type === 'user_message');
           const searchFrom = lastUserMsgIdx + 1; // 0 if no user_message found
           const sliced = draft.events.slice(searchFrom);
           const relIdx = sliced.findLastIndex((e) => e.type === 'text');

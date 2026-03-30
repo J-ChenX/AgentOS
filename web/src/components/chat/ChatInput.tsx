@@ -41,8 +41,11 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
       style={{
         borderTop: '1px solid var(--color-border-subtle)',
         padding: '10px 14px',
-        display: 'flex', gap: '8px', alignItems: 'flex-end',
-        background: 'var(--color-bg-surface)', flexShrink: 0,
+        display: 'flex',
+        gap: '8px',
+        alignItems: 'flex-end',
+        background: 'var(--color-bg-surface)',
+        flexShrink: 0,
       }}
     >
       <textarea
@@ -54,35 +57,53 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
         placeholder="输入任务..."
         disabled={disabled}
         style={{
-          flex: 1, resize: 'none', overflow: 'hidden',
-          minHeight: '34px', maxHeight: '120px',
+          flex: 1,
+          resize: 'none',
+          overflow: 'hidden',
+          minHeight: '34px',
+          maxHeight: '120px',
           padding: '7px 11px',
           background: 'var(--color-bg-sunken)',
           border: '1px solid var(--color-border-default)',
           borderRadius: 'var(--radius-md)',
-          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
-          color: 'var(--color-ink-primary)', fontWeight: 400,
+          fontFamily: 'var(--font-body)',
+          fontSize: 'var(--text-sm)',
+          color: 'var(--color-ink-primary)',
+          fontWeight: 400,
           outline: 'none',
           transition: 'border-color 0.15s',
         }}
-        onFocus={(e) => { e.target.style.borderColor = 'var(--color-border-strong)'; }}
-        onBlur={(e) => { e.target.style.borderColor = 'var(--color-border-default)'; }}
+        onFocus={(e) => {
+          e.target.style.borderColor = 'var(--color-border-strong)';
+        }}
+        onBlur={(e) => {
+          e.target.style.borderColor = 'var(--color-border-default)';
+        }}
       />
       <button
         onClick={handleSubmit}
         disabled={!value.trim() || disabled}
         aria-label="发送"
         style={{
-          height: '34px', minWidth: '60px', padding: '0 14px',
-          background: 'var(--color-accent)', color: 'var(--color-ink-inverse)',
-          border: 'none', borderRadius: 'var(--radius-md)',
-          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 500,
-          cursor: 'pointer', letterSpacing: '0.01em',
-          transition: 'background 0.15s', flexShrink: 0,
-          opacity: (!value.trim() || disabled) ? 0.35 : 1,
+          height: '34px',
+          minWidth: '60px',
+          padding: '0 14px',
+          background: 'var(--color-accent)',
+          color: 'var(--color-ink-inverse)',
+          border: 'none',
+          borderRadius: 'var(--radius-md)',
+          fontFamily: 'var(--font-body)',
+          fontSize: 'var(--text-sm)',
+          fontWeight: 500,
+          cursor: 'pointer',
+          letterSpacing: '0.01em',
+          transition: 'background 0.15s',
+          flexShrink: 0,
+          opacity: !value.trim() || disabled ? 0.35 : 1,
         }}
         onMouseEnter={(e) => {
-          if (!disabled) (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-accent-hover)';
+          if (!disabled)
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-accent-hover)';
         }}
         onMouseLeave={(e) => {
           (e.currentTarget as HTMLButtonElement).style.background = 'var(--color-accent)';

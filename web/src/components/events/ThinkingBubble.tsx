@@ -4,17 +4,25 @@ export default function ThinkingBubble({ content }: { content: string }) {
   return (
     <div
       style={{
-        display: 'flex', alignItems: 'center', gap: '8px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
         padding: '8px 12px',
         background: 'var(--color-bg-raised)',
         borderRadius: 'var(--radius-md)',
       }}
     >
-      <Brain size={14} strokeWidth={1.6} style={{ color: 'var(--color-ink-tertiary)', flexShrink: 0 }} />
+      <Brain
+        size={14}
+        strokeWidth={1.6}
+        style={{ color: 'var(--color-ink-tertiary)', flexShrink: 0 }}
+      />
       <span
         style={{
-          fontFamily: 'var(--font-body)', fontStyle: 'italic',
-          fontWeight: 300, fontSize: 'var(--text-sm)',
+          fontFamily: 'var(--font-body)',
+          fontStyle: 'italic',
+          fontWeight: 300,
+          fontSize: 'var(--text-sm)',
           color: 'var(--color-ink-tertiary)',
           lineHeight: 'var(--leading-normal)',
         }}
@@ -26,8 +34,11 @@ export default function ThinkingBubble({ content }: { content: string }) {
           <span
             key={i}
             style={{
-              display: 'inline-block', width: '3px', height: '3px',
-              borderRadius: '50%', background: 'var(--color-ink-tertiary)',
+              display: 'inline-block',
+              width: '3px',
+              height: '3px',
+              borderRadius: '50%',
+              background: 'var(--color-ink-tertiary)',
               animation: 'thinking-blink 1.4s ease-in-out infinite',
               animationDelay: `${i * 0.22}s`,
             }}

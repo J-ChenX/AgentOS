@@ -14,24 +14,27 @@ const REGISTRY: Record<string, React.FC<{ adapter: AgentAdapter }>> = {
   history: HistoryPanel,
 };
 
-export function renderWidget(
-  type: ViewportType,
-  adapter: AgentAdapter,
-): React.ReactNode {
+export function renderWidget(type: ViewportType, adapter: AgentAdapter): React.ReactNode {
   const Widget = REGISTRY[type];
   if (Widget) return <Widget adapter={adapter} />;
 
   if (type.startsWith('plugin:')) {
     const pluginId = type.slice(7);
     return (
-      <div className="flex items-center justify-center h-full text-sm" style={{ color: 'var(--color-ink-secondary)' }}>
+      <div
+        className="flex h-full items-center justify-center text-sm"
+        style={{ color: 'var(--color-ink-secondary)' }}
+      >
         Plugin "{pluginId}" not installed
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center h-full text-sm" style={{ color: 'var(--color-ink-secondary)' }}>
+    <div
+      className="flex h-full items-center justify-center text-sm"
+      style={{ color: 'var(--color-ink-secondary)' }}
+    >
       Unknown: {type}
     </div>
   );

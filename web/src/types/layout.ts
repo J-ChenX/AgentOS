@@ -1,10 +1,4 @@
-export type ViewportType =
-  | 'chat'
-  | 'files'
-  | 'config'
-  | 'skills'
-  | 'history'
-  | `plugin:${string}`;
+export type ViewportType = 'chat' | 'files' | 'config' | 'skills' | 'history' | `plugin:${string}`;
 
 export interface ViewportNode {
   id: string;

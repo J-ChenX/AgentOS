@@ -42,7 +42,7 @@ export interface TextEvent {
 
 export interface TextDeltaEvent {
   type: 'text_delta';
-  content: string;  // single token or chunk fragment
+  content: string; // single token or chunk fragment
   seq: number;
 }
 
@@ -229,16 +229,8 @@ export interface AgentAdapter {
   cancelTurn(sessionId: string, turnId: string): Promise<void>;
   deleteSession(sessionId: string): Promise<void>;
   deleteTurn(sessionId: string, turnId: string): Promise<void>;
-  addAnnotation(
-    sessionId: string,
-    turnId: string,
-    payload: AnnotationCreate,
-  ): Promise<Annotation>;
-  removeAnnotation(
-    sessionId: string,
-    turnId: string,
-    annotationId: string,
-  ): Promise<void>;
+  addAnnotation(sessionId: string, turnId: string, payload: AnnotationCreate): Promise<Annotation>;
+  removeAnnotation(sessionId: string, turnId: string, annotationId: string): Promise<void>;
 
   // Shared utility methods (retained)
   submitComponentAction(actionId: string, payload: unknown): Promise<void>;

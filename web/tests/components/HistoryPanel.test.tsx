@@ -15,10 +15,7 @@ async function seedAdapter(adapter: MockAdapter, userMessage: string) {
   return { session_id, turn_id };
 }
 
-function renderHistory(
-  adapter: MockAdapter,
-  navCtx: Partial<SessionNavContextValue> = {},
-) {
+function renderHistory(adapter: MockAdapter, navCtx: Partial<SessionNavContextValue> = {}) {
   const ctx: SessionNavContextValue = {
     activeSessionId: null,
     navigateTo: () => {},
@@ -100,9 +97,7 @@ describe('HistoryPanel', () => {
     await userEvent.click(within(row).getByRole('button', { name: '删除会话' }));
     await userEvent.click(screen.getByRole('button', { name: '删除' }));
 
-    await waitFor(() =>
-      expect(screen.queryByText('会话B')).not.toBeInTheDocument(),
-    );
+    await waitFor(() => expect(screen.queryByText('会话B')).not.toBeInTheDocument());
   });
 
   it('deleting the active session calls navigateTo(null)', async () => {

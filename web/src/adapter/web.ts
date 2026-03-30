@@ -1,6 +1,12 @@
 import type {
-  AgentAdapter, StreamEvent, Session, Skill, FileNode, AgentConfig,
-  Annotation, AnnotationCreate,
+  AgentAdapter,
+  StreamEvent,
+  Session,
+  Skill,
+  FileNode,
+  AgentConfig,
+  Annotation,
+  AnnotationCreate,
 } from '../types';
 
 export class WebAdapter implements AgentAdapter {
@@ -54,14 +60,12 @@ export class WebAdapter implements AgentAdapter {
                 const event: StreamEvent = JSON.parse(line.slice(6));
                 if ('seq' in event) lastSeq = (event as { seq: number }).seq;
                 yield event;
-                if (
-                  event.type === 'done' ||
-                  event.type === 'error' ||
-                  event.type === 'cancelled'
-                ) {
+                if (event.type === 'done' || event.type === 'error' || event.type === 'cancelled') {
                   return;
                 }
-              } catch { /* intentionally empty */ }
+              } catch {
+                /* intentionally empty */
+              }
             }
           }
         }
@@ -95,10 +99,7 @@ export class WebAdapter implements AgentAdapter {
     yield* this.streamSSE(`/api/sessions/${sessionId}/turns/${turnId}/stream`);
   }
 
-  async getSessions(
-    limit = 50,
-    offset = 0,
-  ): Promise<{ items: Session[]; total: number }> {
+  async getSessions(limit = 50, offset = 0): Promise<{ items: Session[]; total: number }> {
     return this.request(`/api/sessions?limit=${limit}&offset=${offset}`);
   }
 
@@ -123,10 +124,9 @@ export class WebAdapter implements AgentAdapter {
   }
 
   async deleteTurn(sessionId: string, turnId: string): Promise<void> {
-    const resp = await fetch(
-      `${this.baseUrl}/api/sessions/${sessionId}/turns/${turnId}`,
-      { method: 'DELETE' },
-    );
+    const resp = await fetch(`${this.baseUrl}/api/sessions/${sessionId}/turns/${turnId}`, {
+      method: 'DELETE',
+    });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${await resp.text()}`);
   }
 
@@ -169,17 +169,13 @@ export class WebAdapter implements AgentAdapter {
     turnId: string,
     payload: AnnotationCreate,
   ): Promise<Annotation> {
-    return this.request(
-      `/api/sessions/${sessionId}/turns/${turnId}/annotations`,
-      { method: 'POST', body: JSON.stringify(payload) },
-    );
+    return this.request(`/api/sessions/${sessionId}/turns/${turnId}/annotations`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
   }
 
-  async removeAnnotation(
-    sessionId: string,
-    turnId: string,
-    annotationId: string,
-  ): Promise<void> {
+  async removeAnnotation(sessionId: string, turnId: string, annotationId: string): Promise<void> {
     const resp = await fetch(
       `${this.baseUrl}/api/sessions/${sessionId}/turns/${turnId}/annotations/${annotationId}`,
       { method: 'DELETE' },

@@ -2,6 +2,7 @@ import json
 
 from agentos.builtin_skills.ask_user.skill import ask_user
 
+
 class TestAskUser:
     def test_returns_action_json_open_question(self):
         result = ask_user("What should I do?")

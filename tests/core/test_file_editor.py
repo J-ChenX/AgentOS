@@ -1,6 +1,5 @@
 from agentos.builtin_skills.file_editor.skill import edit_file
 
-
 SAMPLE_CODE = """\
 import os
 from pathlib import Path

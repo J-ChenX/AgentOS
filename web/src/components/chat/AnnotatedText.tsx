@@ -14,11 +14,7 @@ interface Span {
   cpOffset: number;
 }
 
-function buildSpans(
-  text: string,
-  annotations: Annotation[],
-  target: 'user' | 'assistant',
-): Span[] {
+function buildSpans(text: string, annotations: Annotation[], target: 'user' | 'assistant'): Span[] {
   const relevant = [...annotations]
     .filter((a) => a.target === target)
     .sort((a, b) => a.start - b.start);
@@ -73,7 +69,11 @@ function getSelectionInfo(container: HTMLElement): SelectionInfo | null {
 
   const findSpan = (node: Node): Element | null => {
     let el: Node | null = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
-    while (el && el !== container && !(el instanceof Element && el.hasAttribute('data-cp-offset'))) {
+    while (
+      el &&
+      el !== container &&
+      !(el instanceof Element && el.hasAttribute('data-cp-offset'))
+    ) {
       el = (el as Element).parentElement;
     }
     if (!el || el === container) return null;
@@ -89,22 +89,19 @@ function getSelectionInfo(container: HTMLElement): SelectionInfo | null {
   if (
     startSpan.hasAttribute('data-annotation-id') &&
     startSpan.getAttribute('data-annotation-type') === 'replaced'
-  ) return null;
+  )
+    return null;
   if (
     endSpan.hasAttribute('data-annotation-id') &&
     endSpan.getAttribute('data-annotation-type') === 'replaced'
-  ) return null;
+  )
+    return null;
 
-  const cpBase = (span: Element) =>
-    parseInt(span.getAttribute('data-cp-offset') ?? '0', 10);
+  const cpBase = (span: Element) => parseInt(span.getAttribute('data-cp-offset') ?? '0', 10);
   const spanText = (span: Element) => span.textContent ?? '';
 
-  const start =
-    cpBase(startSpan) +
-    utf16ToCodePointOffset(spanText(startSpan), range.startOffset);
-  const end =
-    cpBase(endSpan) +
-    utf16ToCodePointOffset(spanText(endSpan), range.endOffset);
+  const start = cpBase(startSpan) + utf16ToCodePointOffset(spanText(startSpan), range.startOffset);
+  const end = cpBase(endSpan) + utf16ToCodePointOffset(spanText(endSpan), range.endOffset);
 
   if (start >= end) return null;
 
@@ -128,9 +125,14 @@ export interface AnnotatedTextProps {
   text: string;
   annotations: Annotation[];
   target: 'user' | 'assistant';
-  onAddAnnotation?: (
-    payload: { target: 'user' | 'assistant'; start: number; end: number; original: string; type: AnnotationType; replacement?: string },
-  ) => Promise<void>;
+  onAddAnnotation?: (payload: {
+    target: 'user' | 'assistant';
+    start: number;
+    end: number;
+    original: string;
+    type: AnnotationType;
+    replacement?: string;
+  }) => Promise<void>;
   onRemoveAnnotation?: (annotationId: string) => Promise<void>;
 }
 
@@ -215,7 +217,7 @@ export default function AnnotatedText({
               key={i}
               data-cp-offset={span.cpOffset}
               data-annotation-id={ann.annotation_id}
-              className="line-through opacity-40 cursor-pointer"
+              className="cursor-pointer line-through opacity-40"
               title={`原文: ${span.text} — 点击移除标注`}
               onClick={() => onRemoveAnnotation?.(ann.annotation_id)}
             >
@@ -230,7 +232,7 @@ export default function AnnotatedText({
               key={i}
               data-cp-offset={span.cpOffset}
               data-annotation-id={ann.annotation_id}
-              className="font-bold cursor-pointer"
+              className="cursor-pointer font-bold"
               style={{ background: 'rgba(253,224,71,0.35)' }}
               title="加重标注 — 点击移除"
               onClick={() => onRemoveAnnotation?.(ann.annotation_id)}
@@ -312,7 +314,8 @@ export default function AnnotatedText({
                 }}
                 placeholder="替换文本…"
                 style={{
-                  fontSize: '11px', padding: '2px 6px',
+                  fontSize: '11px',
+                  padding: '2px 6px',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--color-border-default)',
                   minWidth: '120px',
